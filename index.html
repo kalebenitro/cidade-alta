@@ -5,47 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>🚗 Metrópole Paulista | MTA</title>
   <style>
-    /* MENOS DE 6KB - PURO CSS, ZERO BLOAT */
     *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,'Segoe UI',Roboto,Arial,sans-serif}
     body{background:#0b0d10;color:#f0f0f0;line-height:1.5;padding:15px;min-height:100vh;display:flex;flex-direction:column}
     .container{max-width:1000px;margin:0 auto;width:100%}
     
-    /* HEADER */
     .logo-area{text-align:center;margin-bottom:15px;border-bottom:2px solid #2a2f35;padding-bottom:15px}
     h1{font-size:2.2rem;letter-spacing:2px;color:#ffd966;text-shadow:0 0 8px #ffb70050;margin-bottom:5px}
     .ip-badge{background:#1e2329;display:inline-block;padding:8px 20px;border-radius:50px;font-weight:bold;border-left:4px solid #ffd966;font-size:1.1rem}
 
-    /* NAVEGAÇÃO (ABAS) */
     .nav-tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:25px;background:#151a20;padding:6px;border-radius:50px}
     .tab-btn{flex:1;min-width:80px;padding:10px 0;background:transparent;border:none;color:#aaa;font-weight:bold;font-size:1.1rem;border-radius:40px;cursor:pointer;transition:0.2s;text-transform:uppercase;letter-spacing:1px}
     .tab-btn:hover{color:#fff;background:#2a323c}
     .tab-btn.active{background:#ffd966;color:#0b0d10;box-shadow:0 2px 10px #ffd96640}
 
-    /* PAINÉIS */
     .panel{display:none;animation:fade 0.25s ease}
     .panel.active{display:block}
     @keyframes fade{from{opacity:0.4}to{opacity:1}}
 
     .card{background:#151a20;border-radius:24px;padding:24px 20px;margin-bottom:20px;border:1px solid #2a323c;box-shadow:0 10px 20px -5px #00000050}
 
-    /* GIF DO TIME */
     .team-gif{width:100%;max-width:500px;margin:20px auto;display:block;border-radius:20px;border:2px solid #3a434e;box-shadow:0 0 20px #00000080}
 
-    /* LISTAS VIP */
-    .vip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:15px}
-    .vip-item{background:#1e262e;padding:18px 5px;border-radius:16px;text-align:center;font-weight:bold;font-size:1.2rem;border-bottom:4px solid #ffd966;transition:0.15s}
-    .vip-item small{display:block;font-size:0.75rem;color:#a0b0c0;margin-top:6px;font-weight:normal}
+    /* NOVOS ESTILOS PARA ABAS DOS VIPS */
+    .vip-tabs-container{margin-top:20px}
+    .vip-selector{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+    .vip-tab{padding:12px 20px;background:#1e262e;border:none;color:#b0c0d0;font-weight:bold;font-size:1rem;border-radius:40px;cursor:pointer;transition:0.2s;flex:1;min-width:100px;border:1px solid #2a353f}
+    .vip-tab:hover{background:#2a353f;color:#fff}
+    .vip-tab.active{background:#ffd966;color:#0b0d10;border-color:#ffd966;box-shadow:0 0 15px #ffd96660}
+    
+    .vip-detail-panel{display:none;background:#1a222a;border-radius:20px;padding:25px;border-left:5px solid #ffd966}
+    .vip-detail-panel.active{display:block}
+    .vip-title{font-size:1.8rem;font-weight:bold;color:#ffd966;margin-bottom:15px;display:flex;align-items:center;gap:10px}
+    .vip-price{background:#2a353f;padding:5px 15px;border-radius:30px;font-size:1rem;color:#fff}
+    .vip-benefits{list-style:none;margin-top:15px}
+    .vip-benefits li{padding:10px 0;border-bottom:1px solid #2a353f;display:flex;align-items:center;gap:10px;font-size:1.05rem}
+    .vip-benefits li:last-child{border-bottom:none}
+    .check-icon{color:#4caf50;font-weight:bold;font-size:1.2rem}
 
-    /* DISPONÍVEL EM BREVE */
     .soon-block{background:#1a1f26;border-radius:30px;padding:30px 20px;text-align:center;border:1px dashed #5f6b7a}
     .soon-icon{font-size:3.5rem;margin-bottom:10px}
     .soon-title{font-size:2rem;font-weight:800;color:#c0ccda;letter-spacing:3px}
     .soon-sub{color:#9aa9b9;margin-top:5px}
 
-    /* FOOTER E STATUS */
     .footer-note{text-align:center;margin-top:20px;color:#7a8797;font-size:0.8rem;border-top:1px solid #1e262e;padding-top:18px}
 
-    /* LISTA DE SKINS */
     .skin-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
     .skin-tag{background:#222b34;padding:10px 18px;border-radius:40px;font-size:0.95rem;border-left:3px solid #ffd966}
   </style>
@@ -53,13 +56,11 @@
 <body>
 <div class="container">
   
-  <!-- CABEÇALHO FIXO -->
   <div class="logo-area">
     <h1>🏙️ METRÓPOLE PAULISTA</h1>
     <div class="ip-badge">🌐 jogar.metropolepaulista.com</div>
   </div>
 
-  <!-- MENU ABAS -->
   <div class="nav-tabs">
     <button class="tab-btn active" data-tab="inicio">🏠 INÍCIO</button>
     <button class="tab-btn" data-tab="produtos">💎 VIPs</button>
@@ -78,8 +79,7 @@
         amor por quem vive o roleplay das quebradas de SP. Tamo junto desde o primeiro dia e agora é só progresso! 🚀
       </p>
       
-      <!-- GIF DO TIME (LINK DIRETO DO CREAVITE) -->
-      <img class="team-gif" src="https://share.creavite.co/69e16486a7750554df624560.gif" alt="Equipe Metrópole Paulista na correria" loading="lazy">
+      <img class="team-gif" src="https://share.creavite.co/69e16486a7750554df624560.gif" alt="Equipe Metrópole Paulista" loading="lazy">
       
       <div style="margin-top:20px;background:#1e262e;border-radius:20px;padding:18px">
         <span style="font-weight:bold;display:block;margin-bottom:10px">📌 NOSSA HISTÓRIA EM 3 FATOS:</span>
@@ -92,21 +92,101 @@
     </div>
   </div>
 
-  <!-- ========== PAINEL PRODUTOS (VIPs) ========= -->
+  <!-- ========== PAINEL PRODUTOS (VIPs COM INTERAÇÃO) ========= -->
   <div id="produtos" class="panel">
     <div class="card">
-      <h2 style="margin-bottom:8px">✨ PACOTES VIP</h2>
-      <p style="color:#b0c0d0;margin-bottom:5px">Escolha seu estilo de vida na quebrada ou no luxo:</p>
+      <h2 style="margin-bottom:8px">✨ ESCOLHA SEU VIP</h2>
+      <p style="color:#b0c0d0;margin-bottom:20px">Clique nos botões abaixo para ver todos os benefícios:</p>
       
-      <div class="vip-grid">
-        <div class="vip-item">🌱 HUMILDE <small>+ R$50k • Mochila</small></div>
-        <div class="vip-item">🏢 BURGUÊS <small>+ R$150k • Casa simples</small></div>
-        <div class="vip-item">🏎️ CLASSE <small>+ R$350k • Carro médio</small></div>
-        <div class="vip-item">💎 MILIONÁRIO <small>+ R$1M • Mansão</small></div>
-        <div class="vip-item">⚡ LEVEL <small>XP Boost • Comando /level</small></div>
+      <!-- ABAS DOS VIPS -->
+      <div class="vip-tabs-container">
+        <div class="vip-selector">
+          <button class="vip-tab active" data-vip="humilde">🌱 HUMILDE</button>
+          <button class="vip-tab" data-vip="burgues">🏢 BURGUÊS</button>
+          <button class="vip-tab" data-vip="classe">🏎️ CLASSE</button>
+          <button class="vip-tab" data-vip="milionario">💎 MILIONÁRIO</button>
+          <button class="vip-tab" data-vip="level">⚡ LEVEL</button>
+        </div>
+        
+        <!-- CONTEÚDO DO VIP HUMILDE -->
+        <div id="vip-humilde" class="vip-detail-panel active">
+          <div class="vip-title">🌱 VIP HUMILDE <span class="vip-price">R$ 14,90</span></div>
+          <ul class="vip-benefits">
+            <li><span class="check-icon">✅</span> + R$ 50.000 na conta bancária</li>
+            <li><span class="check-icon">✅</span> Mochila com 20 slots</li>
+            <li><span class="check-icon">✅</span> Comando /fome (recupera 50% da fome)</li>
+            <li><span class="check-icon">✅</span> Tag [HUMILDE] no chat</li>
+            <li><span class="check-icon">✅</span> Acesso a 3 skins exclusivas</li>
+            <li><span class="check-icon">✅</span> Casa no Helipa (kitnet)</li>
+          </ul>
+        </div>
+        
+        <!-- CONTEÚDO DO VIP BURGUÊS -->
+        <div id="vip-burgues" class="vip-detail-panel">
+          <div class="vip-title">🏢 VIP BURGUÊS <span class="vip-price">R$ 29,90</span></div>
+          <ul class="vip-benefits">
+            <li><span class="check-icon">✅</span> + R$ 150.000 na conta</li>
+            <li><span class="check-icon">✅</span> Mochila com 40 slots</li>
+            <li><span class="check-icon">✅</span> Comando /fome (recupera 75% da fome)</li>
+            <li><span class="check-icon">✅</span> Tag [BURGUÊS] no chat</li>
+            <li><span class="check-icon">✅</span> Acesso a 8 skins exclusivas</li>
+            <li><span class="check-icon">✅</span> Casa na Zona Sul (média)</li>
+            <li><span class="check-icon">✅</span> Carro Gol Quadrado tunado</li>
+            <li><span class="check-icon">✅</span> Bônus de 10% em empregos</li>
+          </ul>
+        </div>
+        
+        <!-- CONTEÚDO DO VIP CLASSE -->
+        <div id="vip-classe" class="vip-detail-panel">
+          <div class="vip-title">🏎️ VIP CLASSE <span class="vip-price">R$ 49,90</span></div>
+          <ul class="vip-benefits">
+            <li><span class="check-icon">✅</span> + R$ 350.000 na conta</li>
+            <li><span class="check-icon">✅</span> Mochila com 60 slots</li>
+            <li><span class="check-icon">✅</span> Comando /fome (recupera 100% da fome)</li>
+            <li><span class="check-icon">✅</span> Tag [CLASSE] no chat colorida</li>
+            <li><span class="check-icon">✅</span> Acesso a 15 skins exclusivas</li>
+            <li><span class="check-icon">✅</span> Casa nos Jardins (grande)</li>
+            <li><span class="check-icon">✅</span> Carro Esportivo (Elegy ou Sultan)</li>
+            <li><span class="check-icon">✅</span> Bônus de 20% em empregos</li>
+            <li><span class="check-icon">✅</span> Comando /mecanico (chama mecânico onde estiver)</li>
+          </ul>
+        </div>
+        
+        <!-- CONTEÚDO DO VIP MILIONÁRIO -->
+        <div id="vip-milionario" class="vip-detail-panel">
+          <div class="vip-title">💎 VIP MILIONÁRIO <span class="vip-price">R$ 89,90</span></div>
+          <ul class="vip-benefits">
+            <li><span class="check-icon">✅</span> + R$ 1.000.000 na conta</li>
+            <li><span class="check-icon">✅</span> Mochila com 100 slots</li>
+            <li><span class="check-icon">✅</span> Comando /fome (nunca fica com fome)</li>
+            <li><span class="check-icon">✅</span> Tag [MILIONÁRIO] dourada no chat</li>
+            <li><span class="check-icon">✅</span> TODAS as skins VIP liberadas</li>
+            <li><span class="check-icon">✅</span> Mansão no Morumbi (com garagem para 5 carros)</li>
+            <li><span class="check-icon">✅</span> Carro Infernus ou Cheetah</li>
+            <li><span class="check-icon">✅</span> Moto esportiva NRG-500</li>
+            <li><span class="check-icon">✅</span> Bônus de 35% em empregos</li>
+            <li><span class="check-icon">✅</span> Comando /mecanico e /medico (chama SAMU)</li>
+            <li><span class="check-icon">✅</span> Acesso ao /fly (voar pelo mapa)</li>
+          </ul>
+        </div>
+        
+        <!-- CONTEÚDO DO VIP LEVEL -->
+        <div id="vip-level" class="vip-detail-panel">
+          <div class="vip-title">⚡ VIP LEVEL <span class="vip-price">R$ 19,90</span></div>
+          <ul class="vip-benefits">
+            <li><span class="check-icon">✅</span> + R$ 25.000 na conta</li>
+            <li><span class="check-icon">✅</span> XP em dobro por 30 dias</li>
+            <li><span class="check-icon">✅</span> Comando /level (mostra seu progresso detalhado)</li>
+            <li><span class="check-icon">✅</span> Tag [LEVEL] no chat</li>
+            <li><span class="check-icon">✅</span> Reset de level semanal grátis</li>
+            <li><span class="check-icon">✅</span> Bônus de 15% em missões diárias</li>
+            <li><span class="check-icon">✅</span> Acesso antecipado a novos empregos</li>
+          </ul>
+        </div>
       </div>
+      
       <p style="margin-top:20px;font-size:0.9rem;background:#1e262e;padding:10px 16px;border-radius:40px">
-        ⚠️ *Vips acumulativos? Depende do pacote. Adquira no Discord oficial.
+        ⚠️ *Vips NÃO são acumulativos. Cada pacote substitui o anterior. Adquira no nosso Discord!
       </p>
     </div>
   </div>
@@ -124,7 +204,7 @@
     </div>
   </div>
 
-  <!-- ========== PAINEL OUTROS (SKINS E ADICIONAIS) ========= -->
+  <!-- ========== PAINEL OUTROS ========= -->
   <div id="outros" class="panel">
     <div class="card">
       <h2 style="margin-bottom:15px">🎨 SKINS & ADICIONAIS</h2>
@@ -160,7 +240,6 @@
     </div>
   </div>
 
-  <!-- RODAPÉ SIMPLES -->
   <div class="footer-note">
     🚦 Metrópole Paulista • MTA Roleplay • Desde 2024 • Feito com raça e café ☕<br>
     <span style="color:#5f738c">#VamoPraCima #SPnoMTA</span>
@@ -169,8 +248,8 @@
 
 <script>
   (function(){
-    // SCRIPT MINÚSCULO PARA TROCA DE ABAS
-    const tabs = document.querySelectorAll('.tab-btn');
+    // SCRIPT PARA TROCA DE ABAS PRINCIPAIS (INÍCIO, PRODUTOS, COINS, OUTROS)
+    const mainTabs = document.querySelectorAll('.nav-tabs .tab-btn');
     const panels = {
       inicio: document.getElementById('inicio'),
       produtos: document.getElementById('produtos'),
@@ -178,35 +257,56 @@
       outros: document.getElementById('outros')
     };
 
-    function switchTab(tabId) {
-      // Esconde todos
+    function switchMainTab(tabId) {
       Object.values(panels).forEach(p => p.classList.remove('active'));
-      // Remove active dos botões
-      tabs.forEach(btn => btn.classList.remove('active'));
+      mainTabs.forEach(btn => btn.classList.remove('active'));
       
-      // Mostra o selecionado
       if(panels[tabId]) panels[tabId].classList.add('active');
       
-      // Ativa botão correspondente
-      const activeBtn = Array.from(tabs).find(btn => btn.dataset.tab === tabId);
+      const activeBtn = Array.from(mainTabs).find(btn => btn.dataset.tab === tabId);
       if(activeBtn) activeBtn.classList.add('active');
     }
 
-    tabs.forEach(btn => {
+    mainTabs.forEach(btn => {
       btn.addEventListener('click', (e) => {
         const tabId = btn.dataset.tab;
-        if(tabId) switchTab(tabId);
+        if(tabId) switchMainTab(tabId);
       });
     });
 
-    // Caso a URL tenha hash, ativa a aba (opcional)
+    // SCRIPT PARA TROCA DE ABAS DOS VIPS (NOVO!)
+    const vipTabs = document.querySelectorAll('.vip-tab');
+    const vipPanels = {
+      humilde: document.getElementById('vip-humilde'),
+      burgues: document.getElementById('vip-burgues'),
+      classe: document.getElementById('vip-classe'),
+      milionario: document.getElementById('vip-milionario'),
+      level: document.getElementById('vip-level')
+    };
+
+    function switchVipTab(vipId) {
+      Object.values(vipPanels).forEach(p => p.classList.remove('active'));
+      vipTabs.forEach(btn => btn.classList.remove('active'));
+      
+      if(vipPanels[vipId]) vipPanels[vipId].classList.add('active');
+      
+      const activeVipBtn = Array.from(vipTabs).find(btn => btn.dataset.vip === vipId);
+      if(activeVipBtn) activeVipBtn.classList.add('active');
+    }
+
+    vipTabs.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const vipId = btn.dataset.vip;
+        if(vipId) switchVipTab(vipId);
+      });
+    });
+
+    // Verifica hash na URL
     if(window.location.hash) {
       const hash = window.location.hash.substring(1);
-      if(panels[hash]) switchTab(hash);
+      if(panels[hash]) switchMainTab(hash);
     }
   })();
 </script>
-
-<!-- Tamanho total: ~5.8KB (bem abaixo de 100MB) pronto pra Discloud -->
 </body>
 </html>
