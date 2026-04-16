@@ -17,6 +17,7 @@
       --text-primary:#ffffff;
       --text-secondary:#9aa9b9;
       --success:#4caf50;
+      --danger:#f44336;
       --gradient-gold:linear-gradient(135deg,#ffd966 0%,#ffb700 100%);
     }
     
@@ -37,6 +38,7 @@
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
     @keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     @keyframes glow{0%,100%{box-shadow:0 0 20px #ffd96630}50%{box-shadow:0 0 40px #ffd96660}}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
     
     /* ========== HEADER ========== */
     .header{
@@ -117,6 +119,22 @@
     .copy-btn{background:var(--primary);color:#000;border:none;padding:6px 15px;border-radius:30px;font-weight:bold;cursor:pointer;transition:0.2s}
     .copy-btn:hover{background:#fff;transform:scale(1.05)}
     
+    .discord-btn{
+      background:#5865F2;
+      color:#fff;
+      padding:10px 25px;
+      border-radius:50px;
+      text-decoration:none;
+      font-weight:bold;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-left:15px;
+      transition:0.2s;
+    }
+    
+    .discord-btn:hover{background:#4752c4;transform:scale(1.05)}
+    
     /* ========== NAVEGAÇÃO ========== */
     .nav-glass{
       background:rgba(19,23,28,0.8);
@@ -193,9 +211,102 @@
       color:var(--primary);
     }
     
-    .card-title span{font-size:1.8rem}
+    /* ========== FORMULÁRIO DE AJUDA ========== */
+    .help-form{
+      background:linear-gradient(145deg,#151d24 0%,#0d1217 100%);
+      border-radius:24px;
+      padding:30px;
+      margin-top:20px;
+    }
     
-    /* ========== QUEM SOMOS ========== */
+    .form-group{margin-bottom:20px}
+    
+    .form-group label{
+      display:block;
+      margin-bottom:8px;
+      color:var(--primary);
+      font-weight:600;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea{
+      width:100%;
+      padding:14px 18px;
+      background:#1a222a;
+      border:2px solid #2a353f;
+      border-radius:16px;
+      color:#fff;
+      font-size:1rem;
+      transition:0.2s;
+      outline:none;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus{
+      border-color:var(--primary);
+      background:#1e2a35;
+    }
+    
+    .form-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+    
+    .submit-btn{
+      background:var(--gradient-gold);
+      color:#000;
+      border:none;
+      padding:16px 35px;
+      border-radius:50px;
+      font-weight:bold;
+      font-size:1.1rem;
+      cursor:pointer;
+      transition:0.2s;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
+    
+    .submit-btn:hover{transform:scale(1.02);box-shadow:0 10px 30px #ffd96640}
+    .submit-btn:disabled{opacity:0.6;cursor:not-allowed}
+    
+    .loading-spinner{
+      width:20px;
+      height:20px;
+      border:3px solid #00000030;
+      border-top-color:#000;
+      border-radius:50%;
+      animation:spin 0.8s linear infinite;
+      display:none;
+    }
+    
+    .form-message{
+      margin-top:15px;
+      padding:15px;
+      border-radius:16px;
+      display:none;
+    }
+    
+    .form-message.success{
+      background:#4caf5020;
+      border:1px solid #4caf50;
+      color:#8bc34a;
+      display:block;
+    }
+    
+    .form-message.error{
+      background:#f4433620;
+      border:1px solid #f44336;
+      color:#ff7961;
+      display:block;
+    }
+    
+    /* ========== OUTROS ESTILOS ========== */
     .about-grid{
       display:grid;
       grid-template-columns:1.2fr 0.8fr;
@@ -213,10 +324,7 @@
       width:100%;
       border-radius:16px;
       display:block;
-      transition:0.3s;
     }
-    
-    .team-gif:hover{transform:scale(1.02)}
     
     .timeline{
       margin-top:25px;
@@ -235,7 +343,6 @@
     .timeline-item:last-child{border-bottom:none}
     .timeline-icon{font-size:1.5rem;min-width:40px}
     
-    /* ========== VIP TABS ========== */
     .vip-header{
       display:flex;
       flex-wrap:wrap;
@@ -272,12 +379,7 @@
       transform:translateY(-3px);
     }
     
-    .vip-tab small{
-      display:block;
-      font-size:0.8rem;
-      opacity:0.8;
-      margin-top:5px;
-    }
+    .vip-tab small{display:block;font-size:0.8rem;opacity:0.8;margin-top:5px}
     
     .vip-content-panel{
       display:none;
@@ -290,22 +392,8 @@
     
     .vip-content-panel.active{display:block}
     
-    .vip-name{
-      font-size:2.2rem;
-      font-weight:800;
-      color:var(--primary);
-      margin-bottom:5px;
-    }
-    
-    .vip-price-tag{
-      display:inline-block;
-      background:#1e2a35;
-      padding:8px 25px;
-      border-radius:40px;
-      font-size:1.3rem;
-      font-weight:bold;
-      margin:15px 0 20px;
-    }
+    .vip-name{font-size:2.2rem;font-weight:800;color:var(--primary);margin-bottom:5px}
+    .vip-price-tag{display:inline-block;background:#1e2a35;padding:8px 25px;border-radius:40px;font-size:1.3rem;font-weight:bold;margin:15px 0 20px}
     
     .benefits-grid{
       display:grid;
@@ -321,169 +409,44 @@
       align-items:center;
       gap:12px;
       transition:0.2s;
-      border:1px solid transparent;
     }
     
-    .benefit-item:hover{
-      background:#202b35;
-      border-color:var(--primary);
-      transform:translateX(5px);
-    }
-    
+    .benefit-item:hover{background:#202b35;transform:translateX(5px)}
     .benefit-icon{font-size:1.4rem}
     
-    .vip-progress{
-      margin-top:25px;
-      height:8px;
-      background:#1a222a;
-      border-radius:10px;
-      overflow:hidden;
-    }
+    .vip-progress{margin-top:25px;height:8px;background:#1a222a;border-radius:10px;overflow:hidden}
+    .vip-progress-bar{height:100%;background:var(--gradient-gold);border-radius:10px;width:0%}
     
-    .vip-progress-bar{
-      height:100%;
-      background:var(--gradient-gold);
-      border-radius:10px;
-      width:0%;
-      transition:width 1s ease;
-    }
+    .soon-premium{text-align:center;padding:50px 30px}
+    .coin-animation{font-size:5rem;animation:float 3s infinite;margin-bottom:20px}
+    .soon-title{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#fff 0%,#b0c0d0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
     
-    /* ========== COINS ========== */
-    .soon-premium{
-      text-align:center;
-      padding:50px 30px;
-    }
-    
-    .coin-animation{
-      font-size:5rem;
-      animation:float 3s infinite;
-      margin-bottom:20px;
-    }
-    
-    .soon-title{
-      font-size:2.5rem;
-      font-weight:800;
-      background:linear-gradient(135deg,#fff 0%,#b0c0d0 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    
-    .newsletter-box{
-      background:#1a222a;
-      border-radius:60px;
-      padding:8px 8px 8px 25px;
-      display:flex;
-      max-width:450px;
-      margin:30px auto 0;
-    }
-    
-    .newsletter-box input{
-      flex:1;
-      background:transparent;
-      border:none;
-      color:#fff;
-      font-size:1rem;
-      outline:none;
-    }
-    
-    .newsletter-box button{
-      background:var(--gradient-gold);
-      border:none;
-      padding:12px 25px;
-      border-radius:40px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-    
-    /* ========== SKINS & ADICIONAIS ========== */
-    .skins-showcase{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:25px;
-    }
-    
+    .skins-showcase{display:grid;grid-template-columns:1fr 1fr;gap:25px}
     .skin-category{background:#0f151b;border-radius:20px;padding:20px}
+    .tag-cloud{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+    .tag{background:#1a2530;padding:12px 20px;border-radius:40px;font-weight:500;transition:0.2s;border:1px solid #2a353f}
+    .tag:hover{background:var(--primary);color:#000;transform:scale(1.05)}
     
-    .tag-cloud{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:15px;
-    }
-    
-    .tag{
-      background:#1a2530;
-      padding:12px 20px;
-      border-radius:40px;
-      font-weight:500;
-      transition:0.2s;
-      border:1px solid #2a353f;
-    }
-    
-    .tag:hover{
-      background:var(--primary);
-      color:#000;
-      border-color:var(--primary);
-      transform:scale(1.05);
-    }
-    
-    /* ========== FOOTER ========== */
-    .footer{
-      margin-top:40px;
-      padding-top:25px;
-      text-align:center;
-      border-top:1px solid #1e2a35;
-      color:var(--text-secondary);
-    }
-    
-    .social-links{
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      margin-bottom:15px;
-    }
-    
+    .footer{margin-top:40px;padding-top:25px;text-align:center;border-top:1px solid #1e2a35;color:var(--text-secondary)}
+    .social-links{display:flex;justify-content:center;gap:20px;margin-bottom:15px}
     .social-link{
-      background:#131a20;
-      width:45px;
-      height:45px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      color:#fff;
-      font-size:1.3rem;
-      transition:0.2s;
-      border:1px solid #2a353f;
+      background:#131a20;width:45px;height:45px;border-radius:50%;display:flex;
+      align-items:center;justify-content:center;text-decoration:none;color:#fff;
+      font-size:1.3rem;transition:0.2s;border:1px solid #2a353f;
     }
-    
     .social-link:hover{background:var(--primary);color:#000;transform:translateY(-3px)}
     
-    /* ========== RESPONSIVO ========== */
     @media(max-width:768px){
       .about-grid{grid-template-columns:1fr}
       .skins-showcase{grid-template-columns:1fr}
-      .server-name{flex-direction:column;gap:5px}
+      .form-row{grid-template-columns:1fr}
       .nav-btn span{display:none}
       .nav-btn{min-width:60px}
-      .vip-tab{min-width:90px;font-size:0.9rem}
-      .benefits-grid{grid-template-columns:1fr}
     }
     
-    /* ========== TOOLTIP ========== */
     .tooltip{
-      position:fixed;
-      background:var(--primary);
-      color:#000;
-      padding:8px 16px;
-      border-radius:30px;
-      font-weight:bold;
-      opacity:0;
-      transition:0.2s;
-      pointer-events:none;
-      z-index:999;
+      position:fixed;background:var(--primary);color:#000;padding:8px 16px;
+      border-radius:30px;font-weight:bold;opacity:0;transition:0.2s;pointer-events:none;z-index:999;
     }
   </style>
 </head>
@@ -506,10 +469,15 @@
       <span>/ 500</span>
     </div>
     
-    <div class="ip-box" id="ipBox">
-      <span>🌐</span>
-      <span class="ip-text">jogar.metropolepaulista.com</span>
-      <button class="copy-btn" id="copyIpBtn">COPIAR</button>
+    <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px">
+      <div class="ip-box" id="ipBox">
+        <span>🌐</span>
+        <span class="ip-text">144.225.189.145:22315</span>
+        <button class="copy-btn" id="copyIpBtn">COPIAR</button>
+      </div>
+      <a href="https://discord.gg/wSa6bRWQ" target="_blank" class="discord-btn">
+        <span>💬</span> DISCORD
+      </a>
     </div>
   </div>
   
@@ -519,6 +487,7 @@
     <button class="nav-btn" data-tab="produtos"><span>💎</span> VIPs</button>
     <button class="nav-btn" data-tab="coins"><span>🪙</span> COINS</button>
     <button class="nav-btn" data-tab="outros"><span>🎭</span> SKINS</button>
+    <button class="nav-btn" data-tab="ajuda"><span>🆘</span> AJUDA</button>
   </div>
   
   <!-- ========== PAINEL INÍCIO ========= -->
@@ -585,7 +554,6 @@
           <div class="benefit-item"><span class="benefit-icon">🏠</span> Kitnet no Helipa</div>
         </div>
         <div class="vip-progress"><div class="vip-progress-bar" style="width:20%"></div></div>
-        <p style="margin-top:15px;color:var(--text-secondary)">Ideal para iniciantes • 20% do potencial total</p>
       </div>
       
       <!-- VIP BURGUÊS -->
@@ -603,7 +571,6 @@
           <div class="benefit-item"><span class="benefit-icon">📈</span> +10% empregos</div>
         </div>
         <div class="vip-progress"><div class="vip-progress-bar" style="width:40%"></div></div>
-        <p style="margin-top:15px;color:var(--text-secondary)">Melhor custo-benefício • 40% do potencial</p>
       </div>
       
       <!-- VIP CLASSE -->
@@ -622,7 +589,6 @@
           <div class="benefit-item"><span class="benefit-icon">🔧</span> Comando /mecanico</div>
         </div>
         <div class="vip-progress"><div class="vip-progress-bar" style="width:65%"></div></div>
-        <p style="margin-top:15px;color:var(--text-secondary)">Vida de playba • 65% do potencial</p>
       </div>
       
       <!-- VIP MILIONÁRIO -->
@@ -643,7 +609,6 @@
           <div class="benefit-item"><span class="benefit-icon">🚑</span> /medico e /mecanico</div>
         </div>
         <div class="vip-progress"><div class="vip-progress-bar" style="width:100%"></div></div>
-        <p style="margin-top:15px;color:var(--text-secondary)">Rei de SP • 100% do potencial</p>
       </div>
       
       <!-- VIP LEVEL -->
@@ -660,7 +625,6 @@
           <div class="benefit-item"><span class="benefit-icon">🔓</span> Acesso antecipado</div>
         </div>
         <div class="vip-progress"><div class="vip-progress-bar" style="width:30%"></div></div>
-        <p style="margin-top:15px;color:var(--text-secondary)">Foco em progressão • XP turbo</p>
       </div>
     </div>
   </div>
@@ -672,13 +636,8 @@
         <div class="coin-animation">🪙⏳</div>
         <div class="soon-title">EM BREVE</div>
         <p style="font-size:1.2rem;margin:20px 0;color:var(--text-secondary)">Sistema de Coins em desenvolvimento</p>
-        <p style="max-width:500px;margin:0 auto">Estamos finalizando a economia do servidor. Seja o primeiro a saber quando lançar!</p>
-        
-        <div class="newsletter-box">
-          <input type="email" placeholder="Seu melhor email" id="emailInput">
-          <button id="notifyBtn">AVISAR</button>
-        </div>
-        <p style="margin-top:15px;font-size:0.9rem;color:#5f738c">Não compartilhamos seu email • Cancele quando quiser</p>
+        <p>Estamos finalizando a economia do servidor. Fique ligado no Discord!</p>
+        <a href="https://discord.gg/wSa6bRWQ" target="_blank" style="display:inline-block;margin-top:25px;background:#5865F2;color:#fff;padding:12px 30px;border-radius:50px;text-decoration:none;font-weight:bold">💬 Entrar no Discord</a>
       </div>
     </div>
   </div>
@@ -719,11 +678,58 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  
+  <!-- ========== PAINEL AJUDA (NOVO - SISTEMA DE LOGS) ========= -->
+  <div id="ajuda" class="panel">
+    <div class="card">
+      <div class="card-title"><span>🆘</span> CENTRAL DE AJUDA</div>
+      <p style="margin-bottom:25px;color:var(--text-secondary)">Preencha o formulário abaixo para solicitar suporte. Nossa equipe receberá sua mensagem diretamente no Discord.</p>
       
-      <div style="background:#0f151b;border-radius:20px;padding:20px;margin-top:20px">
-        <p style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:2rem">ℹ️</span>
-          <span>Todos os itens são compatíveis com MTA e testados pela nossa equipe. Skins e adicionais são liberados via VIP, eventos ou compra avulsa (em breve).</span>
+      <div class="help-form">
+        <form id="helpForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>👤 Seu nick no MTA</label>
+              <input type="text" id="nickname" placeholder="Ex: Joaozin_SP" required>
+            </div>
+            <div class="form-group">
+              <label>🎮 Seu Discord</label>
+              <input type="text" id="discordUser" placeholder="Ex: usuario#1234" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>📋 Tipo de problema</label>
+            <select id="problemType" required>
+              <option value="">-- Selecione --</option>
+              <option value="Bug">🐛 Reportar Bug</option>
+              <option value="Denuncia">🚫 Denunciar Jogador</option>
+              <option value="Financeiro">💰 Problema com pagamento/VIP</option>
+              <option value="Duvida">❓ Dúvida geral</option>
+              <option value="Outro">📌 Outro assunto</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>💬 Descreva o que aconteceu</label>
+            <textarea id="description" rows="4" placeholder="Quanto mais detalhes, mais rápido podemos ajudar..." required></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn" id="submitHelpBtn">
+            <span>🚀 ENVIAR PARA STAFF</span>
+            <div class="loading-spinner" id="loadingSpinner"></div>
+          </button>
+          
+          <div id="formMessage" class="form-message"></div>
+        </form>
+      </div>
+      
+      <div style="margin-top:30px;background:#0f151b;border-radius:20px;padding:20px;text-align:center">
+        <p style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap">
+          <span>💬 Prefere falar direto com a gente?</span>
+          <a href="https://discord.gg/wSa6bRWQ" target="_blank" style="background:#5865F2;color:#fff;padding:10px 25px;border-radius:40px;text-decoration:none;font-weight:bold">Entrar no Discord</a>
         </p>
       </div>
     </div>
@@ -732,13 +738,13 @@
   <!-- FOOTER -->
   <div class="footer">
     <div class="social-links">
-      <a href="#" class="social-link">💬</a>
+      <a href="https://discord.gg/wSa6bRWQ" target="_blank" class="social-link">💬</a>
       <a href="#" class="social-link">📷</a>
       <a href="#" class="social-link">▶️</a>
       <a href="#" class="social-link">🎮</a>
     </div>
     <p>🚦 Metrópole Paulista © 2024 • O Roleplay mais autêntico de SP</p>
-    <p style="margin-top:10px;font-size:0.8rem">Desenvolvido com ☕ e muita raça pela equipe MP</p>
+    <p style="margin-top:10px;font-size:0.9rem;color:var(--primary)">🌐 144.225.189.145:22315</p>
   </div>
 </div>
 
@@ -749,13 +755,18 @@
   (function(){
     "use strict";
     
+    // ========== CONFIGURAÇÃO DO WEBHOOK ==========
+    const WEBHOOK_URL = 'https://ptb.discord.com/api/webhooks/1485821912922722356/0BcLLxjnqkiDxKmBF2wAnvc189EJZVuHpYlxH97KQdrIcamEq3IFhGwuNjC88KlbOWV5';
+    const DISCORD_CHANNEL_ID = '1491799128206999703';
+    
     // ========== SISTEMA DE ABAS PRINCIPAIS ==========
     const mainTabs = document.querySelectorAll('.nav-btn');
     const panels = {
       inicio: document.getElementById('inicio'),
       produtos: document.getElementById('produtos'),
       coins: document.getElementById('coins'),
-      outros: document.getElementById('outros')
+      outros: document.getElementById('outros'),
+      ajuda: document.getElementById('ajuda')
     };
     
     function switchMainTab(tabId){
@@ -808,7 +819,7 @@
     const tooltip = document.getElementById('tooltip');
     
     function copyIp(){
-      navigator.clipboard?.writeText('jogar.metropolepaulista.com').then(() => {
+      navigator.clipboard?.writeText('144.225.189.145:22315').then(() => {
         tooltip.style.opacity = '1';
         tooltip.style.left = (ipBox.getBoundingClientRect().left + ipBox.offsetWidth/2 - 60) + 'px';
         tooltip.style.top = (ipBox.getBoundingClientRect().top - 45) + 'px';
@@ -819,7 +830,7 @@
     copyBtn.addEventListener('click', copyIp);
     ipBox.addEventListener('click', (e) => { if(e.target !== copyBtn) copyIp(); });
     
-    // ========== CONTADOR DE JOGADORES (SIMULADO) ==========
+    // ========== CONTADOR DE JOGADORES ==========
     const counter = document.getElementById('playerCounter');
     if(counter){
       let players = 247;
@@ -829,45 +840,82 @@
       }, 5000);
     }
     
-    // ========== NEWSLETTER (DEMO) ==========
-    const notifyBtn = document.getElementById('notifyBtn');
-    const emailInput = document.getElementById('emailInput');
+    // ========== SISTEMA DE AJUDA (WEBHOOK) ==========
+    const helpForm = document.getElementById('helpForm');
+    const submitBtn = document.getElementById('submitHelpBtn');
+    const spinner = document.getElementById('loadingSpinner');
+    const formMessage = document.getElementById('formMessage');
     
-    if(notifyBtn){
-      notifyBtn.addEventListener('click', () => {
-        const email = emailInput.value.trim();
-        if(email && email.includes('@')){
-          alert('✅ Email cadastrado! Você será avisado quando as Coins lançarem.');
-          emailInput.value = '';
+    helpForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const nickname = document.getElementById('nickname').value.trim();
+      const discordUser = document.getElementById('discordUser').value.trim();
+      const problemType = document.getElementById('problemType').value;
+      const description = document.getElementById('description').value.trim();
+      
+      if(!nickname || !discordUser || !problemType || !description){
+        formMessage.className = 'form-message error';
+        formMessage.textContent = '❌ Preencha todos os campos!';
+        return;
+      }
+      
+      // Desabilita botão e mostra loading
+      submitBtn.disabled = true;
+      spinner.style.display = 'block';
+      formMessage.className = 'form-message';
+      formMessage.textContent = '';
+      
+      // Cria a mensagem personalizada pro Discord
+      const embed = {
+        title: '🆘 NOVO PEDIDO DE AJUDA',
+        color: 0xffd966,
+        fields: [
+          { name: '👤 Nick MTA', value: nickname, inline: true },
+          { name: '🎮 Discord', value: discordUser, inline: true },
+          { name: '📋 Tipo', value: problemType, inline: true },
+          { name: '💬 Descrição', value: description },
+          { name: '⏰ Horário', value: new Date().toLocaleString('pt-BR') },
+          { name: '🌐 Servidor', value: 'Metrópole Paulista | 144.225.189.145:22315' }
+        ],
+        footer: { text: 'Sistema de Logs - Metrópole Paulista' },
+        timestamp: new Date().toISOString()
+      };
+      
+      const payload = {
+        content: `📢 **NOVA SOLICITAÇÃO DE AJUDA** <#${DISCORD_CHANNEL_ID}>`,
+        embeds: [embed]
+      };
+      
+      try{
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        if(response.ok){
+          formMessage.className = 'form-message success';
+          formMessage.innerHTML = '✅ Sua solicitação foi enviada com sucesso! Nossa equipe já foi notificada no Discord e entrará em contato em breve.';
+          helpForm.reset();
         } else {
-          alert('❌ Digite um email válido!');
+          throw new Error('Erro no webhook');
         }
-      });
-    }
-    
-    // ========== ANIMAÇÃO DAS BARRAS DE PROGRESSO ==========
-    const progressBars = document.querySelectorAll('.vip-progress-bar');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.style.transition = 'width 1.5s cubic-bezier(0.4,0,0.2,1)';
-        }
-      });
-    }, {threshold:0.3});
-    
-    progressBars.forEach(bar => observer.observe(bar));
+      } catch(error){
+        console.error('Erro:', error);
+        formMessage.className = 'form-message error';
+        formMessage.innerHTML = '❌ Erro ao enviar. Tente novamente ou entre em contato diretamente pelo Discord.';
+      } finally{
+        submitBtn.disabled = false;
+        spinner.style.display = 'none';
+      }
+    });
     
     // ========== HASH NA URL ==========
     if(window.location.hash){
       const hash = window.location.hash.substring(1);
       if(panels[hash]) switchMainTab(hash);
     }
-    
-    // ========== EFEITO DE HOVER NOS CARDS ==========
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('mouseenter', function(){ this.style.transform = 'translateY(-5px)'; });
-      card.addEventListener('mouseleave', function(){ this.style.transform = 'translateY(0)'; });
-    });
     
   })();
 </script>
