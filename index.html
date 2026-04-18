@@ -400,7 +400,7 @@
     .vip-progress{margin-top:30px;height:10px;background:#1a222a;border-radius:20px;overflow:hidden}
     .vip-progress-bar{height:100%;background:var(--gradient-gold);border-radius:20px;width:0%}
     
-    /* ========== SISTEMA DE COINS (NOVO - PROFISSIONAL) ========== */
+    /* ========== SISTEMA DE COINS (1 COIN = R$ 1,00) ========== */
     .coins-hero{
       text-align:center;
       padding:20px 0 40px;
@@ -420,6 +420,17 @@
       color:var(--text-secondary);
       font-size:1.2rem;
       margin-bottom:40px;
+    }
+    
+    .conversion-badge{
+      display:inline-block;
+      background:var(--gradient-gold);
+      color:#000;
+      padding:8px 25px;
+      border-radius:50px;
+      font-weight:bold;
+      margin-bottom:30px;
+      font-size:1.2rem;
     }
     
     .coins-grid{
@@ -1231,48 +1242,49 @@
     </div>
   </div>
   
-  <!-- ========== PAINEL COINS (NOVO - SISTEMA COMPLETO) ========= -->
+  <!-- ========== PAINEL COINS (1 COIN = R$ 1,00) ========= -->
   <div id="coins" class="panel">
     <div class="card">
       <div class="coins-hero">
         <div class="coins-title">🪙 METRÓPOLE COINS</div>
         <div class="coins-subtitle">Compre Coins e adquira itens exclusivos na loja</div>
+        <div class="conversion-badge">💰 1 COIN = R$ 1,00</div>
       </div>
       
       <div class="coins-grid">
-        <div class="coin-package" data-coins="100" data-price="1">
+        <div class="coin-package" data-coins="1" data-price="1">
           <div class="package-icon">🪙</div>
           <div class="package-name">BRONZE</div>
-          <div class="package-coins">100</div>
+          <div class="package-coins">1</div>
           <div class="package-price">R$ 1,00</div>
-          <div class="package-bonus">⚡ Ideal para iniciar</div>
+          <div class="package-bonus">⚡ 1 Coin = R$ 1,00</div>
         </div>
         
-        <div class="coin-package" data-coins="550" data-price="5">
-          <div class="package-badge">+10% BÔNUS</div>
+        <div class="coin-package" data-coins="6" data-price="5">
+          <div class="package-badge">+1 BÔNUS</div>
           <div class="package-icon">🪙🪙</div>
           <div class="package-name">PRATA</div>
-          <div class="package-coins">550</div>
+          <div class="package-coins">6</div>
           <div class="package-price">R$ 5,00</div>
-          <div class="package-bonus">🎁 50 coins grátis</div>
+          <div class="package-bonus">🎁 +1 Coin grátis</div>
         </div>
         
-        <div class="coin-package" data-coins="1200" data-price="10">
-          <div class="package-badge">+20% BÔNUS</div>
+        <div class="coin-package" data-coins="12" data-price="10">
+          <div class="package-badge">+2 BÔNUS</div>
           <div class="package-icon">🪙🪙🪙</div>
           <div class="package-name">OURO</div>
-          <div class="package-coins">1.200</div>
+          <div class="package-coins">12</div>
           <div class="package-price">R$ 10,00</div>
-          <div class="package-bonus">🎁 200 coins grátis</div>
+          <div class="package-bonus">🎁 +2 Coins grátis</div>
         </div>
         
-        <div class="coin-package" data-coins="6000" data-price="50">
-          <div class="package-badge">+20% BÔNUS</div>
+        <div class="coin-package" data-coins="60" data-price="50">
+          <div class="package-badge">+10 BÔNUS</div>
           <div class="package-icon">💎</div>
           <div class="package-name">DIAMANTE</div>
-          <div class="package-coins">6.000</div>
+          <div class="package-coins">60</div>
           <div class="package-price">R$ 50,00</div>
-          <div class="package-bonus">🎁 1.000 coins grátis</div>
+          <div class="package-bonus">🎁 +10 Coins grátis</div>
         </div>
       </div>
       
@@ -1287,7 +1299,6 @@
           <div class="pix-qrcode">
             <svg class="qrcode-placeholder" viewBox="0 0 200 200" fill="none">
               <rect width="200" height="200" rx="16" fill="#fff"/>
-              <!-- QR Code estilizado (placeholder visual) -->
               <rect x="20" y="20" width="40" height="40" fill="#000" rx="4"/>
               <rect x="80" y="20" width="40" height="40" fill="#000" rx="4"/>
               <rect x="140" y="20" width="40" height="40" fill="#000" rx="4"/>
@@ -1340,7 +1351,7 @@
     </div>
   </div>
   
-  <!-- ========== PAINEL LOJA ========= -->
+  <!-- ========== PAINEL LOJA (PREÇOS AJUSTADOS PARA 1 COIN = R$ 1) ========= -->
   <div id="loja" class="panel">
     <div class="card">
       <div class="card-title"><span>🛒</span> LOJA METRÓPOLE</div>
@@ -1353,9 +1364,8 @@
           <button class="shop-tab" data-shop="imoveis">🏠 IMÓVEIS</button>
         </div>
         
-        <!-- PAINEL VEÍCULOS (COM FUSCA E MCLAREN SENNA) -->
+        <!-- PAINEL VEÍCULOS -->
         <div id="shop-veiculos" class="shop-panel active">
-          <!-- DESTAQUE: FUSCA E MCLAREN SENNA -->
           <div class="vehicle-showcase">
             <div class="vehicle-card fusca">
               <div class="item-badge">🚀 CLÁSSICO</div>
@@ -1366,9 +1376,9 @@
                 <div class="stat"><div class="stat-value">2.5</div><div class="stat-label">0-100</div></div>
                 <div class="stat"><div class="stat-value">Raro</div><div class="stat-label">RARIDADE</div></div>
               </div>
-              <p style="color:var(--text-secondary);margin:15px 0">O clássico das ruas de SP, agora tunado e pronto pra acelerar!</p>
-              <div class="price-coin"><span style="font-size:2rem;color:#4a90e2">2.500</span> <span>🪙</span></div>
-              <button class="buy-btn comprar-item" data-item="Fusca Turbo" data-price="2500">COMPRAR</button>
+              <p style="color:var(--text-secondary);margin:15px 0">O clássico das ruas de SP, agora tunado!</p>
+              <div class="price-coin"><span style="font-size:2rem;color:#4a90e2">25</span> <span>🪙</span></div>
+              <button class="buy-btn comprar-item" data-item="Fusca Turbo" data-price="25">COMPRAR</button>
             </div>
             
             <div class="vehicle-card senna">
@@ -1380,9 +1390,9 @@
                 <div class="stat"><div class="stat-value">1.8</div><div class="stat-label">0-100</div></div>
                 <div class="stat"><div class="stat-value">Lendário</div><div class="stat-label">RARIDADE</div></div>
               </div>
-              <p style="color:var(--text-secondary);margin:15px 0">A máquina definitiva. Exclusividade e velocidade nas ruas de SP!</p>
-              <div class="price-coin"><span style="font-size:2rem;color:#ff3d00">50.000</span> <span>🪙</span></div>
-              <button class="buy-btn comprar-item" data-item="McLaren Senna" data-price="50000">COMPRAR</button>
+              <p style="color:var(--text-secondary);margin:15px 0">A máquina definitiva. Exclusividade nas ruas de SP!</p>
+              <div class="price-coin"><span style="font-size:2rem;color:#ff3d00">500</span> <span>🪙</span></div>
+              <button class="buy-btn comprar-item" data-item="McLaren Senna" data-price="500">COMPRAR</button>
             </div>
           </div>
           
@@ -1392,29 +1402,29 @@
               <div class="item-icon">🚗</div>
               <div class="shop-item-name">Gol Quadrado</div>
               <div class="shop-item-desc">O clássico das quebradas</div>
-              <div class="price-coin"><span>1.200</span> 🪙</div>
-              <button class="buy-btn comprar-item" data-item="Gol Quadrado" data-price="1200">COMPRAR</button>
+              <div class="price-coin"><span>12</span> 🪙</div>
+              <button class="buy-btn comprar-item" data-item="Gol Quadrado" data-price="12">COMPRAR</button>
             </div>
             <div class="shop-item">
               <div class="item-icon">🏎️</div>
               <div class="shop-item-name">Elegy</div>
               <div class="shop-item-desc">Esportivo japonês</div>
-              <div class="price-coin"><span>3.500</span> 🪙</div>
-              <button class="buy-btn comprar-item" data-item="Elegy" data-price="3500">COMPRAR</button>
+              <div class="price-coin"><span>35</span> 🪙</div>
+              <button class="buy-btn comprar-item" data-item="Elegy" data-price="35">COMPRAR</button>
             </div>
             <div class="shop-item">
               <div class="item-icon">🚗</div>
               <div class="shop-item-name">Sultan</div>
               <div class="shop-item-desc">4 portas esportivo</div>
-              <div class="price-coin"><span>3.200</span> 🪙</div>
-              <button class="buy-btn comprar-item" data-item="Sultan" data-price="3200">COMPRAR</button>
+              <div class="price-coin"><span>32</span> 🪙</div>
+              <button class="buy-btn comprar-item" data-item="Sultan" data-price="32">COMPRAR</button>
             </div>
             <div class="shop-item">
               <div class="item-icon">🏎️</div>
               <div class="shop-item-name">Infernus</div>
               <div class="shop-item-desc">Superesportivo</div>
-              <div class="price-coin"><span>25.000</span> 🪙</div>
-              <button class="buy-btn comprar-item" data-item="Infernus" data-price="25000">COMPRAR</button>
+              <div class="price-coin"><span>250</span> 🪙</div>
+              <button class="buy-btn comprar-item" data-item="Infernus" data-price="250">COMPRAR</button>
             </div>
           </div>
         </div>
@@ -1422,30 +1432,30 @@
         <!-- SKINS -->
         <div id="shop-skins" class="shop-panel">
           <div class="items-grid">
-            <div class="shop-item"><div class="item-icon">👮</div><div class="shop-item-name">Miliciano</div><div class="price-coin"><span>500</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Miliciano" data-price="500">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🔫</div><div class="shop-item-name">Traficante ZS</div><div class="price-coin"><span>600</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Traficante" data-price="600">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">💼</div><div class="shop-item-name">Playba Faria Lima</div><div class="price-coin"><span>700</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Playba" data-price="700">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🚔</div><div class="shop-item-name">Policial Civil</div><div class="price-coin"><span>800</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Policial" data-price="800">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">👮</div><div class="shop-item-name">Miliciano</div><div class="price-coin"><span>5</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Miliciano" data-price="5">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🔫</div><div class="shop-item-name">Traficante ZS</div><div class="price-coin"><span>6</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Traficante" data-price="6">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">💼</div><div class="shop-item-name">Playba Faria Lima</div><div class="price-coin"><span>7</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Playba" data-price="7">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🚔</div><div class="shop-item-name">Policial Civil</div><div class="price-coin"><span>8</span> 🪙</div><button class="buy-btn comprar-item" data-item="Skin Policial" data-price="8">COMPRAR</button></div>
           </div>
         </div>
         
         <!-- ADICIONAIS -->
         <div id="shop-adicionais" class="shop-panel">
           <div class="items-grid">
-            <div class="shop-item"><div class="item-icon">📱</div><div class="shop-item-name">Celular 3D</div><div class="price-coin"><span>300</span> 🪙</div><button class="buy-btn comprar-item" data-item="Celular 3D" data-price="300">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🔫</div><div class="shop-item-name">Armas Texturizadas</div><div class="price-coin"><span>1.000</span> 🪙</div><button class="buy-btn comprar-item" data-item="Armas Texturizadas" data-price="1000">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🚗</div><div class="shop-item-name">Tuning SP</div><div class="price-coin"><span>800</span> 🪙</div><button class="buy-btn comprar-item" data-item="Tuning SP" data-price="800">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">💨</div><div class="shop-item-name">Fumaça Colorida</div><div class="price-coin"><span>400</span> 🪙</div><button class="buy-btn comprar-item" data-item="Fumaça Colorida" data-price="400">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">📱</div><div class="shop-item-name">Celular 3D</div><div class="price-coin"><span>3</span> 🪙</div><button class="buy-btn comprar-item" data-item="Celular 3D" data-price="3">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🔫</div><div class="shop-item-name">Armas Texturizadas</div><div class="price-coin"><span>10</span> 🪙</div><button class="buy-btn comprar-item" data-item="Armas Texturizadas" data-price="10">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🚗</div><div class="shop-item-name">Tuning SP</div><div class="price-coin"><span>8</span> 🪙</div><button class="buy-btn comprar-item" data-item="Tuning SP" data-price="8">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">💨</div><div class="shop-item-name">Fumaça Colorida</div><div class="price-coin"><span>4</span> 🪙</div><button class="buy-btn comprar-item" data-item="Fumaça Colorida" data-price="4">COMPRAR</button></div>
           </div>
         </div>
         
         <!-- IMÓVEIS -->
         <div id="shop-imoveis" class="shop-panel">
           <div class="items-grid">
-            <div class="shop-item"><div class="item-icon">🏠</div><div class="shop-item-name">Kitnet Helipa</div><div class="price-coin"><span>1.500</span> 🪙</div><button class="buy-btn comprar-item" data-item="Kitnet Helipa" data-price="1500">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🏢</div><div class="shop-item-name">Casa Zona Sul</div><div class="price-coin"><span>4.000</span> 🪙</div><button class="buy-btn comprar-item" data-item="Casa Zona Sul" data-price="4000">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🏘️</div><div class="shop-item-name">Casa Jardins</div><div class="price-coin"><span>8.000</span> 🪙</div><button class="buy-btn comprar-item" data-item="Casa Jardins" data-price="8000">COMPRAR</button></div>
-            <div class="shop-item"><div class="item-icon">🏰</div><div class="shop-item-name">Mansão Morumbi</div><div class="price-coin"><span>25.000</span> 🪙</div><button class="buy-btn comprar-item" data-item="Mansão Morumbi" data-price="25000">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🏠</div><div class="shop-item-name">Kitnet Helipa</div><div class="price-coin"><span>15</span> 🪙</div><button class="buy-btn comprar-item" data-item="Kitnet Helipa" data-price="15">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🏢</div><div class="shop-item-name">Casa Zona Sul</div><div class="price-coin"><span>40</span> 🪙</div><button class="buy-btn comprar-item" data-item="Casa Zona Sul" data-price="40">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🏘️</div><div class="shop-item-name">Casa Jardins</div><div class="price-coin"><span>80</span> 🪙</div><button class="buy-btn comprar-item" data-item="Casa Jardins" data-price="80">COMPRAR</button></div>
+            <div class="shop-item"><div class="item-icon">🏰</div><div class="shop-item-name">Mansão Morumbi</div><div class="price-coin"><span>250</span> 🪙</div><button class="buy-btn comprar-item" data-item="Mansão Morumbi" data-price="250">COMPRAR</button></div>
           </div>
         </div>
       </div>
@@ -1566,7 +1576,7 @@
     }
     shopTabs.forEach(btn => btn.addEventListener('click',()=>{const id=btn.dataset.shop;if(id)switchShopTab(id);}));
     
-    // Sistema de Coins - Seleção de pacote
+    // Sistema de Coins
     const coinPackages = document.querySelectorAll('.coin-package');
     const pixPanel = document.getElementById('pixPanel');
     let selectedPackage = null;
@@ -1581,16 +1591,15 @@
       });
     });
     
-    // Copiar IP
+    // Copiar
     const ipBox = document.getElementById('ipBox'), copyBtn = document.getElementById('copyIpBtn'), tooltip = document.getElementById('tooltip');
     function copyText(text,msg){navigator.clipboard?.writeText(text).then(()=>{tooltip.style.opacity='1';tooltip.textContent=msg||'✅ COPIADO!';const rect=ipBox.getBoundingClientRect();tooltip.style.left=(rect.left+rect.width/2-70)+'px';tooltip.style.top=(rect.top-50)+'px';setTimeout(()=>tooltip.style.opacity='0',1500);});}
     copyBtn.addEventListener('click',()=>copyText('144.225.189.145:22315','✅ IP COPIADO!'));
     ipBox.addEventListener('click',e=>{if(e.target!==copyBtn)copyText('144.225.189.145:22315','✅ IP COPIADO!');});
     
-    // Copiar PIX
     document.getElementById('copyPixBtn').addEventListener('click',()=>copyText(PIX_KEY,'✅ CHAVE PIX COPIADA!'));
     
-    // Formulário de ajuda
+    // Formulário
     const helpForm = document.getElementById('helpForm'), submitBtn = document.getElementById('submitHelpBtn'), spinner = document.getElementById('loadingSpinner'), formMessage = document.getElementById('formMessage');
     if(helpForm){
       helpForm.addEventListener('submit',async e=>{
@@ -1608,7 +1617,7 @@
       });
     }
     
-    // Modal de compra
+    // Modal
     const modal = document.getElementById('purchaseModal'), modalTitle = document.getElementById('modalTitle'), modalText = document.getElementById('modalText'), modalIcon = document.getElementById('modalIcon'), confirmBtn = document.getElementById('confirmPurchase'), closeModal = document.getElementById('closeModal');
     let currentItem = null, currentPrice = null;
     
