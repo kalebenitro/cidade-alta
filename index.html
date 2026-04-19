@@ -149,6 +149,19 @@
     .detail-list li:last-child{border-bottom:none}
     .check-icon{color:var(--primary);font-weight:bold}
     
+    .payment-badge{
+      display:inline-block;
+      background:var(--primary);
+      color:#fff;
+      padding:5px 15px;
+      border-radius:30px;
+      font-size:0.8rem;
+      font-weight:bold;
+      margin-bottom:15px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+    
     .action-buttons{
       display:flex;
       gap:15px;
@@ -181,37 +194,6 @@
       color:#fff;
     }
     .btn-pix:hover{background:#009e91}
-    .btn-disabled{
-      background:#444;
-      color:#888;
-      cursor:not-allowed;
-    }
-    
-    /* Modal */
-    .modal-overlay{
-      position:fixed;
-      top:0;left:0;right:0;bottom:0;
-      background:#000000e0;
-      backdrop-filter:blur(10px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:1000;
-    }
-    .modal-overlay.active{display:flex}
-    .modal{
-      background:var(--bg-card);
-      border-radius:30px;
-      padding:40px;
-      max-width:450px;
-      width:90%;
-      border:2px solid var(--primary);
-      text-align:center;
-    }
-    .modal-icon{font-size:4rem;margin-bottom:20px}
-    .modal-title{font-size:2rem;font-weight:900;color:var(--primary);margin-bottom:15px}
-    .modal-text{color:var(--text-secondary);margin-bottom:25px}
-    .modal-buttons{display:flex;gap:15px}
     
     /* Grid simples */
     .cards-grid{
@@ -354,6 +336,7 @@
           <span class="card-header-price">R$ 15</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
             <li><span class="check-icon">✅</span> 1 Carro utilizável</li>
             <li><span class="check-icon">✅</span> Água/Fome</li>
@@ -376,6 +359,7 @@
           <span class="card-header-price">R$ 20</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
             <li><span class="check-icon">✅</span> 1 Skin exclusiva</li>
             <li><span class="check-icon">✅</span> 1 Carro</li>
@@ -398,6 +382,7 @@
           <span class="card-header-price">R$ 25</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
             <li><span class="check-icon">✅</span> 2 Skins exclusivas</li>
             <li><span class="check-icon">✅</span> 1 Carro • 1 Moto • 1 Arma</li>
@@ -419,6 +404,7 @@
           <span class="card-header-price">R$ 35</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
             <li><span class="check-icon">✅</span> 2 Skins exclusivas</li>
             <li><span class="check-icon">✅</span> 2 Carros • 1 Moto • 1 Helicóptero</li>
@@ -445,10 +431,11 @@
         <span class="card-header-price">FREE</span>
       </div>
       <div class="card-details">
+        <span class="payment-badge">🎁 GRATUITO</span>
         <ul class="detail-list">
           <li><span class="check-icon">✅</span> 1 - SKIN da Facção/Corporação</li>
           <li><span class="check-icon">✅</span> 2 - GUETTO FREE (acesso liberado)</li>
-          <li><span class="check-icon">✅</span> 3 - ROTA DE ARMA PLUB</li>
+          <li><span class="check-icon">✅</span> 3 - ROTA DE ARMA PUBL</li>
         </ul>
         <div class="action-buttons">
           <button class="btn btn-discord comprar-discord" data-item="FACS/CORP FREE">💬 ABRIR TICKET PARA ADQUIRIR</button>
@@ -470,6 +457,7 @@
           <span class="card-header-price">R$ 1</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>1 Coin para usar na loja</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="1 Coin - R$ 1">💬 COMPRAR VIA DISCORD</button>
@@ -484,6 +472,7 @@
           <span class="card-header-price">R$ 5</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>6 Coins (+1 bônus)</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="6 Coins - R$ 5">💬 COMPRAR VIA DISCORD</button>
@@ -498,6 +487,7 @@
           <span class="card-header-price">R$ 10</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>12 Coins (+2 bônus)</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="12 Coins - R$ 10">💬 COMPRAR VIA DISCORD</button>
@@ -512,6 +502,7 @@
           <span class="card-header-price">R$ 50</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>60 Coins (+10 bônus)</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="60 Coins - R$ 50">💬 COMPRAR VIA DISCORD</button>
@@ -533,6 +524,7 @@
           <span class="card-header-price">R$ 9,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>Dinheiro virtual no jogo</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="R$ 100k - R$ 9,90">💬 COMPRAR VIA DISCORD</button>
@@ -547,6 +539,7 @@
           <span class="card-header-price">R$ 19,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>+ Bônus de 10%</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="R$ 250k - R$ 19,90">💬 COMPRAR VIA DISCORD</button>
@@ -561,6 +554,7 @@
           <span class="card-header-price">R$ 34,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>+ Bônus de 15%</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="R$ 500k - R$ 34,90">💬 COMPRAR VIA DISCORD</button>
@@ -575,6 +569,7 @@
           <span class="card-header-price">R$ 59,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <p>+ Bônus de 20%</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="R$ 1M - R$ 59,90">💬 COMPRAR VIA DISCORD</button>
@@ -597,6 +592,7 @@
           <span class="card-header-price">R$ 19,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
             <li><span class="check-icon">✅</span> GLOCK</li>
             <li><span class="check-icon">✅</span> DESERT</li>
@@ -618,6 +614,7 @@
           <span class="card-header-price">R$ 19,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
             <li><span class="check-icon">✅</span> DESERT</li>
             <li><span class="check-icon">✅</span> AK-47</li>
@@ -640,17 +637,15 @@
       <div class="interactive-card active">
         <div class="card-header">
           <span class="card-header-icon">👕</span>
-          <span class="card-header-title">SKINS EXCLUSIVAS</span>
+          <span class="card-header-title">SKIN EXCLUSIVA</span>
           <span class="card-header-price">R$ 9,90</span>
         </div>
         <div class="card-details">
+          <span class="payment-badge">💰 PAGAMENTO ÚNICO</span>
           <ul class="detail-list">
-            <li><span class="check-icon">✅</span> Miliciano</li>
-            <li><span class="check-icon">✅</span> Traficante ZS</li>
-            <li><span class="check-icon">✅</span> Playba Faria Lima</li>
-            <li><span class="check-icon">✅</span> Motoboy</li>
-            <li><span class="check-icon">✅</span> Policial Civil</li>
+            <li><span class="check-icon">✅</span> A SKIN É DA SUA ESCOLHA</li>
           </ul>
+          <p style="color:var(--text-secondary);margin:15px 0;font-style:italic">Escolha qualquer skin disponível no servidor</p>
           <div class="action-buttons">
             <button class="btn btn-discord comprar-discord" data-item="Skin Exclusiva - R$ 9,90">💬 COMPRAR VIA DISCORD</button>
             <button class="btn btn-pix comprar-pix" data-item="Skin Exclusiva" data-price="9.90">💸 PIX (INDISPONÍVEL)</button>
@@ -705,7 +700,7 @@
       <button class="btn btn-discord" id="modalDiscordBtn">💬 DISCORD</button>
       <button class="btn btn-pix" id="modalPixBtn">💸 PIX</button>
     </div>
-    <button class="btn btn-disabled" style="margin-top:15px;width:100%" id="closeModalBtn">CANCELAR</button>
+    <button class="btn" style="margin-top:15px;width:100%;background:#444;color:#fff" id="closeModalBtn">CANCELAR</button>
   </div>
 </div>
 
