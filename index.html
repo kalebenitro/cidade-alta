@@ -299,11 +299,11 @@
     <img class="banner-gif" src="https://share.creavite.co/69e41883a7750554df6246dd.gif" alt="Banner Metrópole Paulista" loading="lazy">
     <div class="server-info">
       <span class="ip-box">🌐 144.225.189.145:22315</span>
-      <a href="https://discord.gg/wSa6bRWQ" target="_blank" class="discord-link">💬 DISCORD</a>
+      <a href="https://discord.gg/QdcdBxh5Mr" target="_blank" class="discord-link">💬 DISCORD</a>
     </div>
   </div>
   
-  <!-- Navegação (Kit Armas removido) -->
+  <!-- Navegação -->
   <div class="nav-categories">
     <button class="nav-cat active" data-cat="vip">💎 VIP</button>
     <button class="nav-cat" data-cat="facs">🏢 FACS/CORP</button>
@@ -420,7 +420,7 @@
         <ul class="detail-list">
           <li><span class="check-icon">✅</span> 1 - SKIN da Facção/Corporação</li>
           <li><span class="check-icon">✅</span> 2 - GUETTO FREE (acesso liberado)</li>
-          <li><span class="check-icon">✅</span> 3 - ROTA DE ARMA PLUB</li>
+          <li><span class="check-icon">✅</span> 3 - ROTA DE ARMA PUBL</li>
         </ul>
         <div class="action-buttons">
           <button class="btn btn-discord comprar-discord" data-item="FACS/CORP FREE">💬 ABRIR TICKET PARA ADQUIRIR</button>
@@ -438,7 +438,7 @@
       <div class="interactive-card">
         <div class="card-header">
           <span class="card-header-icon">🪙</span>
-          <span class="card-header-title">BRONZE</span>
+          <span class="card-header-title">PACK COINS BRONZE</span>
           <span class="card-header-price">R$ 1</span>
         </div>
         <div class="card-details">
@@ -452,7 +452,7 @@
       <div class="interactive-card">
         <div class="card-header">
           <span class="card-header-icon">🪙🪙</span>
-          <span class="card-header-title">PRATA</span>
+          <span class="card-header-title">PACK COINS PRATA</span>
           <span class="card-header-price">R$ 5</span>
         </div>
         <div class="card-details">
@@ -466,7 +466,7 @@
       <div class="interactive-card">
         <div class="card-header">
           <span class="card-header-icon">🪙🪙🪙</span>
-          <span class="card-header-title">OURO</span>
+          <span class="card-header-title">PACK COINS OURO</span>
           <span class="card-header-price">R$ 10</span>
         </div>
         <div class="card-details">
@@ -480,7 +480,7 @@
       <div class="interactive-card">
         <div class="card-header">
           <span class="card-header-icon">💎</span>
-          <span class="card-header-title">DIAMANTE</span>
+          <span class="card-header-title">PACK COINS DIAMANTE</span>
           <span class="card-header-price">R$ 50</span>
         </div>
         <div class="card-details">
@@ -620,7 +620,7 @@
   (function(){
     const WEBHOOK_URL = 'https://ptb.discord.com/api/webhooks/1485821912922722356/0BcLLxjnqkiDxKmBF2wAnvc189EJZVuHpYlxH97KQdrIcamEq3IFhGwuNjC88KlbOWV5';
     const DISCORD_CHANNEL_ID = '1491799128206999703';
-    const DISCORD_INVITE = 'https://discord.gg/wSa6bRWQ';
+    const DISCORD_INVITE = 'https://discord.gg/QdcdBxh5Mr';
     
     // Abas de categoria
     const catBtns = document.querySelectorAll('.nav-cat');
@@ -654,7 +654,7 @@
       });
     });
     
-    // Botões comprar via Discord (direto, sem modal)
+    // Botões comprar via Discord
     document.querySelectorAll('.comprar-discord').forEach(btn => {
       btn.addEventListener('click', function(e){
         e.stopPropagation();
