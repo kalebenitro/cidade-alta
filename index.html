@@ -1,571 +1,524 @@
-# =============================================
-# BOT DISCORD - SISTEMA TICKET + LOJA PROFISSIONAL
-# VERSÃO PREMIUM COM GIF EM DESTAQUE - DisCloud Ready
-# =============================================
-
-import discord
-from discord.ext import commands
-from discord import app_commands
-import asyncio
-import os
-from datetime import datetime
-from dotenv import load_dotenv
-
-load_dotenv()
-
-# =============================================
-# CONFIGURAÇÕES (SEUS IDs JÁ CONFIGURADOS!)
-# =============================================
-CONFIG = {
-    # IDs dos Canais
-    "CANAL_TICKET": 1494682276036874330,
-    "CANAL_COMPRA": 1494680813395247264,
-    "CANAL_UTEIS": 1494680886254375054,
-    "CATEGORIA_TICKETS": 1494682169476649173,
-    "CARGO_SUPORTE": 1494679313151295700,
-    "CARGO_CLIENTE": 1494679123828805872,
-    "CANAL_LOGS": 1494682029197885451,
-    "CANAL_AVALIACOES": 1494682558129115217,
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Metrópole Paulista - Loja Oficial de VIPs, Blindados, Coins e muito mais.">
+  <meta name="theme-color" content="#ffd966">
+  <title>Metrópole Paulista | Loja Oficial</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary:#ffd966;
+      --bg-dark:#0a0c10;
+      --bg-card:#13171c;
+      --border-color:#2a323c;
+      --text-primary:#ffffff;
+      --text-secondary:#9aa9b9;
+      --success:#4caf50;
+      --gradient-gold:linear-gradient(135deg,#ffd966 0%,#ffb700 100%);
+    }
+    body{
+      background:var(--bg-dark);
+      color:var(--text-primary);
+      font-family:'Inter',system-ui,sans-serif;
+      line-height:1.5;
+      min-height:100vh;
+      padding:20px 15px;
+    }
+    .container{max-width:1200px;margin:0 auto}
     
-    # Preços
-    "PRECO_DESMANCHE": 5,
-    "PRECO_PLANTACAO": 5,
-    "PRECO_LAVAGEM": 10,
-    "PRECO_MESA_ROTA": 6,
-    "PRECO_GARAGEM": 8,
-    "PRECO_PORTAO": 4,
-    "PRECO_ID": 3,
-    "PRECO_COINS": 2,
-    
-    "MOEDA": "R$",
-    "NOME_LOJA": "METROPOLE LOJA",
-    "COR_EMBED": 0x9b59b6,  # Roxo elegante
-    "COR_EMBED_SUCESSO": 0x2ecc71, # Verde
-    "COR_EMBED_ERRO": 0xe74c3c,    # Vermelho
-    "PIX": "Ezequielk783@gmail.com",
-    
-    # GIF para os painéis
-    "GIF_BANNER": "https://share.creavite.co/69e4113da7750554df6246c9.gif"
-}
-
-# =============================================
-# RESPOSTAS RÁPIDAS (MAIS PROFISSIONAIS)
-# =============================================
-QUICK_REPLIES = {
-    "precos": "📋 **TABELA DE PREÇOS VIP**\n"
-              "```md\n"
-              "🔧 Desmanche:       R$ 5\n"
-              "🌿 Plantação:       R$ 5\n"
-              "💵 Lavagem:         R$ 10\n"
-              "🎲 Mesa Rota:       R$ 6\n"
-              "🏠 Garagem:         R$ 8\n"
-              "🚪 Portão:          R$ 4\n"
-              "🆔 ID:              R$ 3\n"
-              "🪙 Coins:           R$ 2\n"
-              "```",
-    "pagamento": "💳 **FORMAS DE PAGAMENTO**\n"
-                 "```yaml\n"
-                 f"PIX: {CONFIG['PIX']}\n"
-                 "Após o pagamento, envie o comprovante neste ticket!\n"
-                 "```",
-    "entrega": "⏰ **ENTREGA IMEDIATA**\n"
-               "✅ Assim que o pagamento for confirmado, seu produto é liberado na hora!\n"
-               "⚡ Tempo médio de entrega: **Menos de 5 minutos**",
-    "verificar": "🔍 **VERIFICAÇÃO DE PLANO**\n"
-                 "Por favor, informe seu **ID de cliente** para verificarmos seu status atual.",
-    "desconto": "💰 **DESCONTO DE RENOVAÇÃO**\n"
-                "```diff\n"
-                "+ Clientes VIP possuem 10% de desconto na renovação!\n"
-                "+ Planos anuais têm 20% de desconto adicional.\n"
-                "```",
-    "status": "⚡ **REATIVAÇÃO DE PLANO**\n"
-              "Seu plano expirou há **menos de 7 dias**?\n"
-              "Você pode reativar com **20% de desconto**! Informe seu ID.",
-    "como_ativar": "✅ **COMO ATIVAR SEU PRODUTO**\n"
-                   "1. Após a compra, você receberá um **código de ativação**.\n"
-                   "2. Use o comando `/resgatar` ou fale com o suporte.\n"
-                   "3. Seu cargo de cliente será liberado automaticamente.",
-    "tecnico": "🔧 **SUPORTE TÉCNICO**\n"
-               "Descreva detalhadamente o problema que está enfrentando.\n"
-               "Envie **prints ou vídeos** se possível para agilizar o atendimento.",
-    "duvida": "❓ **DÚVIDAS GERAIS**\n"
-              "Fique à vontade para perguntar!\n"
-              "Nossa equipe está aqui para ajudar você.",
-    "reembolso": "💵 **POLÍTICA DE REEMBOLSO**\n"
-                 "```fix\n"
-                 "Garantia de 7 dias após a compra.\n"
-                 "Para solicitar, explique o motivo neste ticket.\n"
-                 "```",
-    "geral": "📞 **ATENDIMENTO**\n"
-             "Um de nossos atendentes já foi notificado e responderá em breve.\n"
-             "Agradecemos a paciência! 💜"
-}
-
-# =============================================
-# BOT PRINCIPAL
-# =============================================
-class LojaBot(commands.Bot):
-    def __init__(self):
-        intents = discord.Intents.all()
-        super().__init__(command_prefix="!", intents=intents)
-        
-    async def setup_hook(self):
-        # Registrar views persistentes
-        self.add_view(TicketView())
-        self.add_view(CompraView())
-        self.add_view(UteisView())
-        await self.tree.sync()
-        print(f"✅ Comandos sincronizados!")
-
-bot = LojaBot()
-
-# =============================================
-# EVENTO READY
-# =============================================
-@bot.event
-async def on_ready():
-    print(f"✅ {bot.user} está online!")
-    print(f"📊 {len(bot.guilds)} servidores")
-    await bot.change_presence(
-        activity=discord.Activity(
-            type=discord.ActivityType.watching,
-            name=f"🎫 METROPOLE LOJA"
-        )
-    )
-
-# =============================================
-# VIEW PERSISTENTE DO TICKET (DESIGN PREMIUM)
-# =============================================
-class TicketView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-    
-    @discord.ui.select(
-        placeholder="🎫 Selecione o tipo de atendimento...",
-        custom_id="ticket_menu_persistente",
-        options=[
-            discord.SelectOption(label="Comprar", value="comprar", emoji="🛒", description="Adquirir novos produtos"),
-            discord.SelectOption(label="Renovar", value="renovar", emoji="🔄", description="Renovar seu plano VIP"),
-            discord.SelectOption(label="Reativar", value="reativar", emoji="⚡", description="Reativar plano expirado"),
-            discord.SelectOption(label="Ativar", value="ativar", emoji="✅", description="Ativar produto comprado"),
-            discord.SelectOption(label="Suporte", value="suporte", emoji="❓", description="Dúvidas e ajuda técnica"),
-            discord.SelectOption(label="Outros", value="outros", emoji="📋", description="Outros assuntos")
-        ]
-    )
-    async def ticket_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
-        tipo = select.values[0]
-        
-        # Responder IMEDIATAMENTE para evitar erro
-        await interaction.response.defer(ephemeral=True)
-        
-        try:
-            guild = interaction.guild
-            categoria = guild.get_channel(CONFIG["CATEGORIA_TICKETS"])
-            cargo_suporte = guild.get_role(CONFIG["CARGO_SUPORTE"])
-            
-            # Formata o nome do canal
-            emoji_tipo = {
-                "comprar": "🛒", "renovar": "🔄", "reativar": "⚡",
-                "ativar": "✅", "suporte": "❓", "outros": "📋"
-            }
-            emoji = emoji_tipo.get(tipo, "🎫")
-            
-            # Criar canal
-            overwrites = {
-                guild.default_role: discord.PermissionOverwrite(view_channel=False),
-                interaction.user: discord.PermissionOverwrite(view_channel=True, send_messages=True)
-            }
-            if cargo_suporte:
-                overwrites[cargo_suporte] = discord.PermissionOverwrite(view_channel=True, send_messages=True)
-            
-            canal = await guild.create_text_channel(
-                name=f"{emoji}・{tipo}-{interaction.user.name}",
-                category=categoria,
-                overwrites=overwrites
-            )
-            
-            # Embed de boas-vindas (DESIGN PREMIUM COM GIF EM DESTAQUE)
-            embed = discord.Embed(
-                title=f"{emoji} Ticket de {tipo.upper()}",
-                description=f"### Olá {interaction.user.mention}!\n"
-                            f"Um atendente responderá em breve.\n"
-                            f"Use os botões abaixo para **respostas rápidas**:\n\n"
-                            f"🟢 *Status:* **Aguardando Atendente**",
-                color=CONFIG["COR_EMBED"]
-            )
-            embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF LOGO ABAIXO DO TÍTULO
-            embed.set_footer(text=f"{CONFIG['NOME_LOJA']} • Obrigado por confiar na gente!", icon_url=interaction.user.display_avatar.url)
-            embed.timestamp = datetime.now()
-            
-            view = QuickReplyView(tipo)
-            
-            mensagem = f"{interaction.user.mention}"
-            if cargo_suporte:
-                mensagem += f" | {cargo_suporte.mention}"
-            
-            await canal.send(content=mensagem, embed=embed, view=view)
-            
-            await interaction.followup.send(f"✅ Ticket criado com sucesso: {canal.mention}", ephemeral=True)
-            
-            # Log
-            await log_action(f"🎫 Ticket criado por {interaction.user} - Tipo: {tipo}")
-            
-        except Exception as e:
-            print(f"Erro ao criar ticket: {e}")
-            await interaction.followup.send("❌ Erro ao criar ticket. Verifique as permissões!", ephemeral=True)
-
-# =============================================
-# VIEW DE RESPOSTAS RÁPIDAS (MAIS ORGANIZADA)
-# =============================================
-class QuickReplyView(discord.ui.View):
-    def __init__(self, tipo):
-        super().__init__(timeout=None)
-        
-        if tipo == "comprar":
-            self.add_item(QuickButton("precos", "📋 Preços", discord.ButtonStyle.primary, "💰"))
-            self.add_item(QuickButton("pagamento", "💳 Pagamento", discord.ButtonStyle.secondary, "💵"))
-            self.add_item(QuickButton("entrega", "⏰ Entrega", discord.ButtonStyle.success, "🚚"))
-        elif tipo == "renovar":
-            self.add_item(QuickButton("verificar", "🔍 Verificar", discord.ButtonStyle.primary, "📊"))
-            self.add_item(QuickButton("desconto", "💰 Desconto", discord.ButtonStyle.secondary, "🎁"))
-        elif tipo == "reativar":
-            self.add_item(QuickButton("status", "⚡ Status", discord.ButtonStyle.primary, "🔄"))
-        elif tipo == "ativar":
-            self.add_item(QuickButton("como_ativar", "✅ Como Ativar", discord.ButtonStyle.primary, "🔑"))
-        elif tipo == "suporte":
-            self.add_item(QuickButton("tecnico", "🔧 Técnico", discord.ButtonStyle.danger, "⚠️"))
-            self.add_item(QuickButton("duvida", "❓ Dúvida", discord.ButtonStyle.primary, "💡"))
-            self.add_item(QuickButton("reembolso", "💵 Reembolso", discord.ButtonStyle.secondary, "↩️"))
-        else:
-            self.add_item(QuickButton("geral", "📞 Chamar", discord.ButtonStyle.primary, "📢"))
-        
-        self.add_item(CloseTicketButton())
-
-class QuickButton(discord.ui.Button):
-    def __init__(self, tipo, label, style, emoji=None):
-        super().__init__(label=label, style=style, custom_id=f"quick_{tipo}", emoji=emoji)
-        self.tipo = tipo
-    
-    async def callback(self, interaction: discord.Interaction):
-        resposta = QUICK_REPLIES.get(self.tipo, "Aguarde um atendente!")
-        embed = discord.Embed(description=resposta, color=CONFIG["COR_EMBED"])
-        await interaction.response.send_message(embed=embed)
-
-class CloseTicketButton(discord.ui.Button):
-    def __init__(self):
-        super().__init__(label="Fechar Ticket", style=discord.ButtonStyle.danger, custom_id="fechar_ticket", emoji="🔒")
-    
-    async def callback(self, interaction: discord.Interaction):
-        embed = discord.Embed(
-            title="🔒 Fechar Ticket",
-            description="### O ticket será fechado em 5 segundos...\nDeseja avaliar o atendimento?",
-            color=CONFIG["COR_EMBED"]
-        )
-        embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF NO FECHAMENTO TAMBÉM
-        embed.set_footer(text="Sua opinião é muito importante para nós! 💜")
-        
-        view = AvaliacaoView()
-        await interaction.response.send_message(embed=embed, view=view)
-
-class AvaliacaoView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-    
-    @discord.ui.button(label="Avaliar", style=discord.ButtonStyle.success, emoji="⭐")
-    async def avaliar_sim(self, interaction: discord.Interaction, button: discord.ui.Button):
-        modal = AvaliacaoModal()
-        await interaction.response.send_modal(modal)
-    
-    @discord.ui.button(label="Não", style=discord.ButtonStyle.secondary, emoji="❌")
-    async def avaliar_nao(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_message("🔒 Fechando ticket...", ephemeral=True)
-        await asyncio.sleep(5)
-        await interaction.channel.delete()
-
-class AvaliacaoModal(discord.ui.Modal, title="⭐ Avaliar Atendimento"):
-    nota = discord.ui.TextInput(
-        label="Nota (1-5 estrelas)",
-        placeholder="Digite um número de 1 a 5...",
-        required=True,
-        min_length=1,
-        max_length=1
-    )
-    comentario = discord.ui.TextInput(
-        label="Comentário",
-        placeholder="Conte como foi sua experiência...",
-        style=discord.TextStyle.paragraph,
-        required=True,
-        max_length=500
-    )
-    
-    async def on_submit(self, interaction: discord.Interaction):
-        try:
-            nota_int = int(self.nota.value)
-            if nota_int < 1 or nota_int > 5:
-                return await interaction.response.send_message("❌ Nota deve ser entre 1 e 5!", ephemeral=True)
-            
-            estrelas = "⭐" * nota_int + "☆" * (5 - nota_int)
-            
-            embed = discord.Embed(
-                title="⭐ Nova Avaliação Recebida!",
-                description=f"**Nota:** {estrelas} ({nota_int}/5)\n"
-                            f"**Comentário:** {self.comentario.value}",
-                color=0xFFD700
-            )
-            embed.add_field(name="Cliente", value=str(interaction.user), inline=True)
-            embed.add_field(name="Canal", value=interaction.channel.name, inline=True)
-            embed.set_thumbnail(url=interaction.user.display_avatar.url)
-            embed.timestamp = datetime.now()
-            
-            canal_aval = interaction.guild.get_channel(CONFIG["CANAL_AVALIACOES"])
-            if canal_aval:
-                await canal_aval.send(embed=embed)
-            
-            await interaction.response.send_message("✅ Obrigado pela avaliação! Fechando ticket...", ephemeral=True)
-            await asyncio.sleep(5)
-            await interaction.channel.delete()
-            
-            await log_action(f"⭐ Avaliação de {interaction.user} - Nota: {nota_int}/5")
-            
-        except ValueError:
-            await interaction.response.send_message("❌ Nota inválida!", ephemeral=True)
-
-# =============================================
-# VIEW DE COMPRAS (COM GIF)
-# =============================================
-class CompraView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-    
-    @discord.ui.button(label="Comprar Adicionais", style=discord.ButtonStyle.success, custom_id="btn_comprar", emoji="🛍️")
-    async def comprar_menu(self, interaction: discord.Interaction, button: discord.ui.Button):
-        select = CompraSelect()
-        view = discord.ui.View(timeout=None)
-        view.add_item(select)
-        await interaction.response.send_message("**Selecione o adicional desejado:**", view=view, ephemeral=True)
-    
-    @discord.ui.button(label="Ver Preços", style=discord.ButtonStyle.secondary, custom_id="btn_precos", emoji="📋")
-    async def ver_precos(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed(title="📋 Tabela de Preços - METROPOLE", color=CONFIG["COR_EMBED"])
-        embed.add_field(name="🔧 Desmanche", value=f"R$ {CONFIG['PRECO_DESMANCHE']}", inline=True)
-        embed.add_field(name="🌿 Plantação", value=f"R$ {CONFIG['PRECO_PLANTACAO']}", inline=True)
-        embed.add_field(name="💵 Lavagem", value=f"R$ {CONFIG['PRECO_LAVAGEM']}", inline=True)
-        embed.add_field(name="🎲 Mesa Rota", value=f"R$ {CONFIG['PRECO_MESA_ROTA']}", inline=True)
-        embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF NA TABELA DE PREÇOS
-        embed.set_footer(text="Preços sujeitos a alterações.")
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-class CompraSelect(discord.ui.Select):
-    def __init__(self):
-        super().__init__(
-            placeholder="Selecione o adicional...",
-            custom_id="select_compra",
-            options=[
-                discord.SelectOption(label="Desmanche", value="desmanche", description=f"R$ {CONFIG['PRECO_DESMANCHE']}", emoji="🔧"),
-                discord.SelectOption(label="Plantação", value="plantacao", description=f"R$ {CONFIG['PRECO_PLANTACAO']}", emoji="🌿"),
-                discord.SelectOption(label="Lavagem", value="lavagem", description=f"R$ {CONFIG['PRECO_LAVAGEM']}", emoji="💵"),
-                discord.SelectOption(label="Mesa Rota", value="mesa_rota", description=f"R$ {CONFIG['PRECO_MESA_ROTA']}", emoji="🎲")
-            ]
-        )
-    
-    async def callback(self, interaction: discord.Interaction):
-        produto = self.values[0]
-        await processar_compra(interaction, produto)
-
-# =============================================
-# VIEW DE ÚTEIS (COM GIF)
-# =============================================
-class UteisView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-    
-    @discord.ui.button(label="Comprar Úteis", style=discord.ButtonStyle.primary, custom_id="btn_uteis", emoji="🛒")
-    async def comprar_uteis(self, interaction: discord.Interaction, button: discord.ui.Button):
-        select = UteisSelect()
-        view = discord.ui.View(timeout=None)
-        view.add_item(select)
-        await interaction.response.send_message("**Selecione o item desejado:**", view=view, ephemeral=True)
-
-class UteisSelect(discord.ui.Select):
-    def __init__(self):
-        super().__init__(
-            placeholder="Selecione o item útil...",
-            custom_id="select_uteis",
-            options=[
-                discord.SelectOption(label="Garagem na Base", value="garagem", description=f"R$ {CONFIG['PRECO_GARAGEM']}", emoji="🏠"),
-                discord.SelectOption(label="Portão por ACL", value="portao", description=f"R$ {CONFIG['PRECO_PORTAO']}", emoji="🚪"),
-                discord.SelectOption(label="ID", value="id", description=f"R$ {CONFIG['PRECO_ID']}", emoji="🆔"),
-                discord.SelectOption(label="Coins", value="coins", description=f"R$ {CONFIG['PRECO_COINS']}", emoji="🪙")
-            ]
-        )
-    
-    async def callback(self, interaction: discord.Interaction):
-        produto = self.values[0]
-        await processar_compra(interaction, produto)
-
-# =============================================
-# FUNÇÃO PROCESSAR COMPRA
-# =============================================
-async def processar_compra(interaction: discord.Interaction, produto: str):
-    precos = {
-        "desmanche": CONFIG["PRECO_DESMANCHE"],
-        "plantacao": CONFIG["PRECO_PLANTACAO"],
-        "lavagem": CONFIG["PRECO_LAVAGEM"],
-        "mesa_rota": CONFIG["PRECO_MESA_ROTA"],
-        "garagem": CONFIG["PRECO_GARAGEM"],
-        "portao": CONFIG["PRECO_PORTAO"],
-        "id": CONFIG["PRECO_ID"],
-        "coins": CONFIG["PRECO_COINS"]
+    /* Header */
+    .header{
+      text-align:center;
+      margin-bottom:30px;
+    }
+    .server-name{
+      font-size:2.5rem;
+      font-weight:900;
+      background:var(--gradient-gold);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      margin-bottom:10px;
+    }
+    .welcome-text{
+      color:var(--text-secondary);
+      margin-bottom:20px;
     }
     
-    preco = precos.get(produto, 0)
+    /* Banner GIF */
+    .banner-gif{
+      width:100%;
+      max-width:800px;
+      margin:0 auto 20px;
+      border-radius:20px;
+      border:2px solid var(--border-color);
+      display:block;
+      box-shadow:0 10px 30px #00000050;
+    }
     
-    embed = discord.Embed(
-        title="🛒 Confirmação de Compra",
-        description=f"### Produto Selecionado: **{produto.upper()}**\n"
-                    f"**Valor Total:** {CONFIG['MOEDA']} {preco}",
-        color=CONFIG["COR_EMBED_SUCESSO"]
-    )
-    embed.add_field(name="💳 Pagamento", value=f"```yaml\nPIX: {CONFIG['PIX']}\n```")
-    embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF NA CONFIRMAÇÃO
-    embed.set_footer(text="Após o pagamento, envie o comprovante em um ticket.")
+    /* Navegação */
+    .nav-categories{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:8px;
+      margin-bottom:30px;
+      background:#13171c;
+      padding:10px;
+      border-radius:50px;
+      border:1px solid var(--border-color);
+    }
+    .nav-cat{
+      padding:12px 20px;
+      background:transparent;
+      border:none;
+      color:var(--text-secondary);
+      font-weight:600;
+      font-size:0.95rem;
+      border-radius:40px;
+      cursor:pointer;
+      transition:0.2s;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+    .nav-cat:hover{color:#fff;background:#2a353f}
+    .nav-cat.active{
+      background:var(--gradient-gold);
+      color:#000;
+    }
     
-    view = ConfirmarCompraView(produto)
-    await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
-
-class ConfirmarCompraView(discord.ui.View):
-    def __init__(self, produto):
-        super().__init__(timeout=None)
-        self.produto = produto
+    /* Painéis de categoria */
+    .category-panel{
+      display:none;
+      animation:fade 0.3s ease;
+    }
+    .category-panel.active{display:block}
+    @keyframes fade{from{opacity:0.5}to{opacity:1}}
     
-    @discord.ui.button(label="Confirmar", style=discord.ButtonStyle.success, emoji="✅")
-    async def confirmar(self, interaction: discord.Interaction, button: discord.ui.Button):
-        cargo = interaction.guild.get_role(CONFIG["CARGO_CLIENTE"])
-        if cargo:
-            await interaction.user.add_roles(cargo)
-        
-        embed = discord.Embed(
-            title="✅ Compra Confirmada!",
-            description="Obrigado por comprar conosco!\n"
-                        "Após a confirmação do pagamento, seu produto será liberado.",
-            color=CONFIG["COR_EMBED_SUCESSO"]
-        )
-        embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF NA CONFIRMAÇÃO
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-        await log_action(f"🛒 Compra de {self.produto} por {interaction.user}")
+    /* Cards */
+    .section-title{
+      font-size:1.8rem;
+      margin-bottom:20px;
+      color:var(--primary);
+    }
+    .cards-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:20px;
+    }
+    .product-card{
+      background:var(--bg-card);
+      border-radius:20px;
+      padding:25px 20px;
+      border:1px solid var(--border-color);
+      transition:0.2s;
+      text-align:center;
+    }
+    .product-card:hover{
+      border-color:var(--primary);
+      transform:translateY(-3px);
+    }
+    .card-icon{font-size:3rem;margin-bottom:15px}
+    .card-title{
+      font-size:1.5rem;
+      font-weight:700;
+      color:var(--primary);
+      margin-bottom:5px;
+    }
+    .card-price{
+      font-size:2rem;
+      font-weight:bold;
+      margin:15px 0;
+    }
+    .card-desc{
+      color:var(--text-secondary);
+      font-size:0.9rem;
+      margin-bottom:20px;
+      min-height:40px;
+    }
+    .buy-btn{
+      background:var(--gradient-gold);
+      color:#000;
+      border:none;
+      padding:12px 25px;
+      border-radius:40px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.2s;
+      width:100%;
+      font-size:1rem;
+    }
+    .buy-btn:hover{transform:scale(1.02);box-shadow:0 5px 20px #ffd96640}
     
-    @discord.ui.button(label="Cancelar", style=discord.ButtonStyle.danger, emoji="❌")
-    async def cancelar(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed(description="❌ Compra cancelada!", color=CONFIG["COR_EMBED_ERRO"])
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-
-# =============================================
-# COMANDOS SLASH (PAINÉIS COM GIF EM DESTAQUE)
-# =============================================
-@bot.tree.command(name="painel_ticket", description="🎫 Criar painel de tickets profissional")
-@app_commands.default_permissions(administrator=True)
-async def painel_ticket(interaction: discord.Interaction):
-    embed = discord.Embed(
-        title="🎫 CENTRAL DE ATENDIMENTO",
-        description="### Selecione uma opção abaixo para abrir seu ticket!\n"
-                    "Nossa equipe está pronta para ajudar você.",
-        color=CONFIG["COR_EMBED"]
-    )
-    embed.add_field(name="🛒 Comprar", value="Adquirir produtos", inline=True)
-    embed.add_field(name="🔄 Renovar", value="Renovar plano", inline=True)
-    embed.add_field(name="⚡ Reativar", value="Reativar expirado", inline=True)
-    embed.add_field(name="✅ Ativar", value="Ativar produto", inline=True)
-    embed.add_field(name="❓ Suporte", value="Ajuda e dúvidas", inline=True)
-    embed.add_field(name="📋 Outros", value="Outros assuntos", inline=True)
-    embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF LOGO ABAIXO DO TÍTULO
-    embed.set_footer(text=f"{CONFIG['NOME_LOJA']} • Atendimento 24/7", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
-    embed.timestamp = datetime.now()
+    /* Footer */
+    .footer{
+      margin-top:40px;
+      padding-top:20px;
+      text-align:center;
+      border-top:1px solid var(--border-color);
+      color:var(--text-secondary);
+    }
     
-    view = TicketView()
-    await interaction.channel.send(embed=embed, view=view)
-    await interaction.response.send_message("✅ Painel de tickets criado com sucesso!", ephemeral=True)
-
-@bot.tree.command(name="painel_compra", description="🛒 Criar painel de compras premium")
-@app_commands.default_permissions(administrator=True)
-async def painel_compra(interaction: discord.Interaction):
-    embed = discord.Embed(
-        title="🛒 LOJA DE ADICIONAIS PREMIUM",
-        description="### Escolha os melhores adicionais para sua jogabilidade!\n"
-                    "Todos os itens são entregues **instantaneamente** após a confirmação.",
-        color=CONFIG["COR_EMBED"]
-    )
-    embed.add_field(name="🔧 Desmanche", value=f"`R$ {CONFIG['PRECO_DESMANCHE']}`", inline=True)
-    embed.add_field(name="🌿 Plantação", value=f"`R$ {CONFIG['PRECO_PLANTACAO']}`", inline=True)
-    embed.add_field(name="💵 Lavagem", value=f"`R$ {CONFIG['PRECO_LAVAGEM']}`", inline=True)
-    embed.add_field(name="🎲 Mesa Rota", value=f"`R$ {CONFIG['PRECO_MESA_ROTA']}`", inline=True)
-    embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF LOGO ABAIXO
-    embed.set_footer(text=f"{CONFIG['NOME_LOJA']} • Qualidade garantida", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+    /* IP e Discord */
+    .server-info{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin:20px 0;
+    }
+    .ip-box{
+      background:#1a222a;
+      padding:10px 25px;
+      border-radius:50px;
+      font-family:monospace;
+      border:1px solid var(--primary);
+    }
+    .discord-link{
+      background:#5865F2;
+      color:#fff;
+      padding:10px 25px;
+      border-radius:50px;
+      text-decoration:none;
+      font-weight:bold;
+    }
     
-    view = CompraView()
-    await interaction.channel.send(embed=embed, view=view)
-    await interaction.response.send_message("✅ Painel de compras criado com sucesso!", ephemeral=True)
-
-@bot.tree.command(name="painel_uteis", description="🔧 Criar painel de adicionais úteis premium")
-@app_commands.default_permissions(administrator=True)
-async def painel_uteis(interaction: discord.Interaction):
-    embed = discord.Embed(
-        title="🔧 ADICIONAIS ÚTEIS PREMIUM",
-        description="### Melhore ainda mais sua experiência!\n"
-                    "Itens essenciais para seu servidor.",
-        color=CONFIG["COR_EMBED"]
-    )
-    embed.add_field(name="🏠 Garagem na Base", value=f"`R$ {CONFIG['PRECO_GARAGEM']}`", inline=True)
-    embed.add_field(name="🚪 Portão por ACL", value=f"`R$ {CONFIG['PRECO_PORTAO']}`", inline=True)
-    embed.add_field(name="🆔 ID", value=f"`R$ {CONFIG['PRECO_ID']}`", inline=True)
-    embed.add_field(name="🪙 Coins", value=f"`R$ {CONFIG['PRECO_COINS']}`", inline=True)
-    embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF LOGO ABAIXO
-    embed.set_footer(text=f"{CONFIG['NOME_LOJA']} • Sua melhor escolha", icon_url=interaction.guild.icon.url if interaction.guild.icon else None)
+    @media(max-width:600px){
+      .nav-cat{font-size:0.8rem;padding:10px 12px}
+      .cards-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  
+  <div class="header">
+    <div class="server-name">🔥 METRÓPOLE PAULISTA</div>
+    <div class="welcome-text">SEJA BEM-VINDO À LOJA OFICIAL<br>Navegue pelas categorias e escolha seu plano</div>
     
-    view = UteisView()
-    await interaction.channel.send(embed=embed, view=view)
-    await interaction.response.send_message("✅ Painel de úteis criado com sucesso!", ephemeral=True)
-
-@bot.tree.command(name="avaliar", description="⭐ Avaliar um atendente")
-async def avaliar(interaction: discord.Interaction, atendente: discord.Member):
-    modal = AvaliacaoModal()
-    await interaction.response.send_modal(modal)
-
-# =============================================
-# LOGS (COM EMOJIS E CORES)
-# =============================================
-async def log_action(mensagem: str):
-    print(f"[LOG] {mensagem}")
-    canal_logs = bot.get_channel(CONFIG["CANAL_LOGS"])
-    if canal_logs:
-        embed = discord.Embed(description=f"📝 {mensagem}", color=0x808080, timestamp=datetime.now())
-        await canal_logs.send(embed=embed)
-
-# =============================================
-# COMANDO !ATIVAR (COM FEEDBACK MELHOR)
-# =============================================
-@bot.command(name="ativar")
-async def ativar_cargo(ctx):
-    cargo = ctx.guild.get_role(CONFIG["CARGO_CLIENTE"])
-    if not cargo:
-        embed = discord.Embed(description="❌ Cargo de cliente não configurado!", color=CONFIG["COR_EMBED_ERRO"])
-        return await ctx.send(embed=embed)
+    <!-- NOVO GIF AQUI -->
+    <img class="banner-gif" src="https://share.creavite.co/69e41883a7750554df6246dd.gif" alt="Metrópole Paulista Banner" loading="lazy">
     
-    if cargo in ctx.author.roles:
-        embed = discord.Embed(description="❌ Você já possui o cargo de cliente!", color=CONFIG["COR_EMBED_ERRO"])
-        await ctx.send(embed=embed)
-    else:
-        await ctx.author.add_roles(cargo)
-        embed = discord.Embed(description="✅ Cargo de cliente adicionado com sucesso! Bem-vindo(a)!", color=CONFIG["COR_EMBED_SUCESSO"])
-        embed.set_image(url=CONFIG["GIF_BANNER"])  # GIF NO CARGO TAMBÉM
-        await ctx.send(embed=embed)
-        await log_action(f"✅ Cargo de cliente dado para {ctx.author}")
+    <div class="server-info">
+      <span class="ip-box">🌐 144.225.189.145:22315</span>
+      <a href="https://discord.gg/wSa6bRWQ" target="_blank" class="discord-link">💬 DISCORD</a>
+    </div>
+  </div>
+  
+  <!-- Navegação por categorias -->
+  <div class="nav-categories">
+    <button class="nav-cat active" data-cat="vip">💎 VIP</button>
+    <button class="nav-cat" data-cat="blindados">🛡️ BLINDADOS</button>
+    <button class="nav-cat" data-cat="moedas">🪙 MOEDAS</button>
+    <button class="nav-cat" data-cat="dinheiro">💰 DINHEIRO</button>
+    <button class="nav-cat" data-cat="kitarmas">🔫 KIT ARMAS</button>
+    <button class="nav-cat" data-cat="faccao">🏢 FACÇÃO</button>
+    <button class="nav-cat" data-cat="outros">🎭 OUTROS</button>
+  </div>
+  
+  <!-- PAINEL VIP -->
+  <div id="vip" class="category-panel active">
+    <h2 class="section-title">💎 ESCOLHA SEU VIP</h2>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">🌱</div>
+        <div class="card-title">HUMILDE</div>
+        <div class="card-price">R$ 14,90</div>
+        <div class="card-desc">+R$50k • Mochila 20 slots • Tag [HUMILDE] • Kitnet</div>
+        <button class="buy-btn comprar" data-item="VIP Humilde" data-price="14.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">BURGUÊS</div>
+        <div class="card-price">R$ 29,90</div>
+        <div class="card-desc">+R$150k • Mochila 40 slots • Casa ZS • Gol Quadrado</div>
+        <button class="buy-btn comprar" data-item="VIP Burguês" data-price="29.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🏎️</div>
+        <div class="card-title">CLASSE</div>
+        <div class="card-price">R$ 49,90</div>
+        <div class="card-desc">+R$350k • Mochila 60 slots • Casa Jardins • Elegy/Sultan</div>
+        <button class="buy-btn comprar" data-item="VIP Classe" data-price="49.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💎</div>
+        <div class="card-title">MILIONÁRIO</div>
+        <div class="card-price">R$ 89,90</div>
+        <div class="card-desc">+R$1M • Mochila 100 slots • Mansão • Infernus • /fly</div>
+        <button class="buy-btn comprar" data-item="VIP Milionário" data-price="89.90">COMPRAR</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PAINEL BLINDADOS -->
+  <div id="blindados" class="category-panel">
+    <h2 class="section-title">🛡️ VEÍCULOS BLINDADOS</h2>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">🚙</div>
+        <div class="card-title">BALLER BLINDADA</div>
+        <div class="card-price">R$ 79,90</div>
+        <div class="card-desc">SUV de luxo com blindagem nível III</div>
+        <button class="buy-btn comprar" data-item="Baller Blindada" data-price="79.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🚗</div>
+        <div class="card-title">COGNOSCENTI</div>
+        <div class="card-price">R$ 89,90</div>
+        <div class="card-desc">Sedan executivo blindado</div>
+        <button class="buy-btn comprar" data-item="Cognoscenti Blindado" data-price="89.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🚐</div>
+        <div class="card-title">SPEEDO BLINDADA</div>
+        <div class="card-price">R$ 69,90</div>
+        <div class="card-desc">Van blindada para transporte de valores</div>
+        <button class="buy-btn comprar" data-item="Speedo Blindada" data-price="69.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🏎️</div>
+        <div class="card-title">KURUMA BLINDADA</div>
+        <div class="card-price">R$ 99,90</div>
+        <div class="card-desc">Esportivo blindado - o preferido das ruas</div>
+        <button class="buy-btn comprar" data-item="Kuruma Blindada" data-price="99.90">COMPRAR</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PAINEL MOEDAS (COINS) -->
+  <div id="moedas" class="category-panel">
+    <h2 class="section-title">🪙 METRÓPOLE COINS</h2>
+    <p style="margin-bottom:20px;color:var(--text-secondary)">💰 1 COIN = R$ 1,00</p>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">🪙</div>
+        <div class="card-title">BRONZE</div>
+        <div class="card-price">R$ 1,00</div>
+        <div class="card-desc">1 Coin</div>
+        <button class="buy-btn comprar" data-item="1 Coin" data-price="1.00">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🪙🪙</div>
+        <div class="card-title">PRATA</div>
+        <div class="card-price">R$ 5,00</div>
+        <div class="card-desc">6 Coins (+1 bônus)</div>
+        <button class="buy-btn comprar" data-item="6 Coins" data-price="5.00">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🪙🪙🪙</div>
+        <div class="card-title">OURO</div>
+        <div class="card-price">R$ 10,00</div>
+        <div class="card-desc">12 Coins (+2 bônus)</div>
+        <button class="buy-btn comprar" data-item="12 Coins" data-price="10.00">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💎</div>
+        <div class="card-title">DIAMANTE</div>
+        <div class="card-price">R$ 50,00</div>
+        <div class="card-desc">60 Coins (+10 bônus)</div>
+        <button class="buy-btn comprar" data-item="60 Coins" data-price="50.00">COMPRAR</button>
+      </div>
+    </div>
+    <p style="margin-top:20px;padding:15px;background:#1a222a;border-radius:15px;text-align:center">
+      PIX: ezequielk783@gmail.com - Após pagamento, abra ticket no Discord
+    </p>
+  </div>
+  
+  <!-- PAINEL DINHEIRO (CASH DO JOGO) -->
+  <div id="dinheiro" class="category-panel">
+    <h2 class="section-title">💰 DINHEIRO DO JOGO</h2>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">💵</div>
+        <div class="card-title">R$ 100.000</div>
+        <div class="card-price">R$ 9,90</div>
+        <div class="card-desc">Dinheiro virtual no jogo</div>
+        <button class="buy-btn comprar" data-item="R$ 100.000" data-price="9.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💵💵</div>
+        <div class="card-title">R$ 250.000</div>
+        <div class="card-price">R$ 19,90</div>
+        <div class="card-desc">+ Bônus de 10%</div>
+        <button class="buy-btn comprar" data-item="R$ 250.000" data-price="19.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💵💵💵</div>
+        <div class="card-title">R$ 500.000</div>
+        <div class="card-price">R$ 34,90</div>
+        <div class="card-desc">+ Bônus de 15%</div>
+        <button class="buy-btn comprar" data-item="R$ 500.000" data-price="34.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💰</div>
+        <div class="card-title">R$ 1.000.000</div>
+        <div class="card-price">R$ 59,90</div>
+        <div class="card-desc">+ Bônus de 20%</div>
+        <button class="buy-btn comprar" data-item="R$ 1.000.000" data-price="59.90">COMPRAR</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PAINEL KIT ARMAS -->
+  <div id="kitarmas" class="category-panel">
+    <h2 class="section-title">🔫 KIT ARMAS</h2>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">🔫</div>
+        <div class="card-title">KIT INICIANTE</div>
+        <div class="card-price">R$ 19,90</div>
+        <div class="card-desc">Pistol • 50 munições • Colete</div>
+        <button class="buy-btn comprar" data-item="Kit Iniciante" data-price="19.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🔫🔫</div>
+        <div class="card-title">KIT TRAFICANTE</div>
+        <div class="card-price">R$ 39,90</div>
+        <div class="card-desc">Uzi • 100 munições • Colete pesado</div>
+        <button class="buy-btn comprar" data-item="Kit Traficante" data-price="39.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🔫🔫🔫</div>
+        <div class="card-title">KIT CHEFE</div>
+        <div class="card-price">R$ 69,90</div>
+        <div class="card-desc">AK-47 • 150 munições • Colete pesado</div>
+        <button class="buy-btn comprar" data-item="Kit Chefe" data-price="69.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💣</div>
+        <div class="card-title">KIT GUERRA</div>
+        <div class="card-price">R$ 99,90</div>
+        <div class="card-desc">Rifle • 200 munições • Colete + Capa</div>
+        <button class="buy-btn comprar" data-item="Kit Guerra" data-price="99.90">COMPRAR</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PAINEL FACÇÃO -->
+  <div id="faccao" class="category-panel">
+    <h2 class="section-title">🏢 VAGAS DE FACÇÃO</h2>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">👮</div>
+        <div class="card-title">POLÍCIA</div>
+        <div class="card-price">R$ 29,90</div>
+        <div class="card-desc">Vaga na corporação policial</div>
+        <button class="buy-btn comprar" data-item="Vaga Polícia" data-price="29.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🏥</div>
+        <div class="card-title">SAMU</div>
+        <div class="card-price">R$ 24,90</div>
+        <div class="card-desc">Vaga no serviço médico</div>
+        <button class="buy-btn comprar" data-item="Vaga SAMU" data-price="24.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">MECÂNICA</div>
+        <div class="card-price">R$ 19,90</div>
+        <div class="card-desc">Vaga na oficina mecânica</div>
+        <button class="buy-btn comprar" data-item="Vaga Mecânica" data-price="19.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">FACÇÃO CRIMINOSA</div>
+        <div class="card-price">R$ 49,90</div>
+        <div class="card-desc">Vaga em facção (CV/PCC)</div>
+        <button class="buy-btn comprar" data-item="Vaga Facção" data-price="49.90">COMPRAR</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PAINEL OUTROS -->
+  <div id="outros" class="category-panel">
+    <h2 class="section-title">🎭 SKINS & ADICIONAIS</h2>
+    <div class="cards-grid">
+      <div class="product-card">
+        <div class="card-icon">👕</div>
+        <div class="card-title">SKINS EXCLUSIVAS</div>
+        <div class="card-price">R$ 9,90</div>
+        <div class="card-desc">Miliciano, Traficante, Playba</div>
+        <button class="buy-btn comprar" data-item="Skin Exclusiva" data-price="9.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">TUNING SP</div>
+        <div class="card-price">R$ 14,90</div>
+        <div class="card-desc">Personalização completa</div>
+        <button class="buy-btn comprar" data-item="Tuning SP" data-price="14.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">📱</div>
+        <div class="card-title">CELULAR 3D</div>
+        <div class="card-price">R$ 7,90</div>
+        <div class="card-desc">Item visual exclusivo</div>
+        <button class="buy-btn comprar" data-item="Celular 3D" data-price="7.90">COMPRAR</button>
+      </div>
+      <div class="product-card">
+        <div class="card-icon">💨</div>
+        <div class="card-title">FUMAÇA COLORIDA</div>
+        <div class="card-price">R$ 5,90</div>
+        <div class="card-desc">Efeito visual para veículos</div>
+        <button class="buy-btn comprar" data-item="Fumaça Colorida" data-price="5.90">COMPRAR</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>🚦 METRÓPOLE PAULISTA • O ROLEPLAY MAIS AUTÊNTICO DE SP</p>
+    <p style="margin-top:10px">PIX para pagamento: ezequielk783@gmail.com</p>
+  </div>
+</div>
 
-# =============================================
-# INICIAR BOT
-# =============================================
-if __name__ == "__main__":
-    TOKEN = os.getenv("TOKEN")
-    if not TOKEN:
-        print("❌ Token não encontrado no arquivo .env!")
-    else:
-        bot.run(TOKEN)
+<script>
+  (function(){
+    // Sistema de abas de categoria
+    const catBtns = document.querySelectorAll('.nav-cat');
+    const panels = {
+      vip: document.getElementById('vip'),
+      blindados: document.getElementById('blindados'),
+      moedas: document.getElementById('moedas'),
+      dinheiro: document.getElementById('dinheiro'),
+      kitarmas: document.getElementById('kitarmas'),
+      faccao: document.getElementById('faccao'),
+      outros: document.getElementById('outros')
+    };
+    
+    function switchCategory(catId){
+      Object.values(panels).forEach(p => p.classList.remove('active'));
+      catBtns.forEach(btn => btn.classList.remove('active'));
+      
+      if(panels[catId]) panels[catId].classList.add('active');
+      
+      const activeBtn = Array.from(catBtns).find(btn => btn.dataset.cat === catId);
+      if(activeBtn) activeBtn.classList.add('active');
+    }
+    
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const catId = btn.dataset.cat;
+        if(catId) switchCategory(catId);
+      });
+    });
+    
+    // Botões de compra - abrem modal simples
+    document.querySelectorAll('.comprar').forEach(btn => {
+      btn.addEventListener('click', function(){
+        const item = this.dataset.item;
+        const price = this.dataset.price;
+        alert(`🛒 Item selecionado: ${item}\n💰 Valor: R$ ${price}\n\n📧 Faça o PIX para: ezequielk783@gmail.com\n💬 Após pagamento, abra um ticket no Discord informando o comprovante.`);
+      });
+    });
+    
+    // Hash na URL
+    if(window.location.hash){
+      const hash = window.location.hash.substring(1);
+      if(panels[hash]) switchCategory(hash);
+    }
+  })();
+</script>
+</body>
+</html>
