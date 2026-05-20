@@ -334,6 +334,26 @@
       padding: 20px 0;
     }
 
+    /* NOTIFICAÇÃO */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #00ff88;
+      color: black;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 999;
+      animation: fadeIn 0.3s;
+      box-shadow: 0px 4px 15px rgba(0,255,136,0.4);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* RESPONSIVO */
     @media (max-width: 768px) {
       .sidebar {
@@ -502,18 +522,18 @@
   </div>
 
   <script>
+    // ==================== CONFIGURAÇÃO ====================
+    const WEBHOOK_URL = "https://ptb.discord.com/api/webhooks/1506449522103029911/BFSaEKJ3BOU0IwFrUNFs1dFaASaq49_tB8gVy2Vkwz71xJP8XPf8bNjAXCFbAuNe6Gfy";
     let cart = [];
 
+    // ==================== NAVEGAÇÃO ====================
     function showChannel(channelId) {
-      // Esconder todos
       document.querySelectorAll(".channel").forEach(ch => ch.classList.remove("active"));
-      // Mostrar selecionado
       document.getElementById(channelId).classList.add("active");
       
-      // Atualizar botão ativo
       document.querySelectorAll(".sidebar button").forEach(btn => btn.classList.remove("active"));
-      const buttons = document.querySelectorAll(".sidebar button");
       const channelNames = ["ids", "vips", "veiculos", "pacotes", "pix", "admin"];
+      const buttons = document.querySelectorAll(".sidebar button");
       const index = channelNames.indexOf(channelId);
       if (index >= 0 && index < buttons.length) {
         buttons[index].classList.add("active");
@@ -522,16 +542,11 @@
       atualizarPainel();
     }
 
+    // ==================== CARRINHO ====================
     function addToCart(nome, preco) {
       cart.push({ nome, preco });
       atualizarCarrinho();
-      
-      // Feedback visual
-      const notification = document.createElement("div");
-      notification.style.cssText = "position:fixed;top:20px;right:20px;background:#00ff88;color:black;padding:15px 25px;border-radius:10px;font-weight:bold;z-index:999;animation:fadeIn 0.3s;";
-      notification.textContent = "✅ " + nome + " adicionado!";
-      document.body.appendChild(notification);
-      setTimeout(() => notification.remove(), 2000);
+      mostrarNotificacao("✅ " + nome + " adicionado!");
     }
 
     function removerItem(index) {
@@ -565,6 +580,7 @@
       cartTotal.innerHTML = "Total: R$ " + total.toFixed(2).replace(".", ",");
     }
 
+    // ==================== FINALIZAR COMPRA ====================
     function finalizarCompra() {
       if (cart.length === 0) {
         alert("Seu carrinho está vazio!");
@@ -574,20 +590,114 @@
       let total = cart.reduce((sum, item) => sum + item.preco, 0);
       let itens = cart.map(item => `- ${item.nome}: R$ ${item.preco.toFixed(2).replace(".", ",")}`).join("\n");
 
+      // Registrar venda no localStorage
       registrarVenda(total);
 
+      // Enviar log para o Discord
+      enviarLogDiscord({
+        itens: [...cart],
+        total: total
+      });
+
+      // Mostrar confirmação
       alert(
         "✅ PEDIDO CRIADO COM SUCESSO!\n\n" +
         itens + "\n\n" +
         "Total: R$ " + total.toFixed(2).replace(".", ",") + "\n\n" +
         "Agora vá na aba PAGAMENTO PIX e realize o pagamento.\n" +
-        "Após o pagamento, envie o comprovante para um administrador."
+        "Após o pagamento, envie o comprovante para um administrador.\n\n" +
+        "📊 Um log foi enviado automaticamente para a Staff!"
       );
 
+      // Limpar carrinho
       cart = [];
       atualizarCarrinho();
     }
 
+    // ==================== WEBHOOK DISCORD ====================
+    async function enviarLogDiscord(dadosCompra) {
+      const now = new Date();
+      const dataFormatada = now.toLocaleDateString("pt-BR");
+      const horaFormatada = now.toLocaleTimeString("pt-BR");
+      const numeroPedido = Math.floor(Math.random() * 90000) + 10000;
+
+      const embed = {
+        embeds: [{
+          title: "🛒 NOVA COMPRA FINALIZADA!",
+          color: 0x00ff88,
+          timestamp: now.toISOString(),
+          thumbnail: {
+            url: "https://imgur.com/IrYCr7r.gif"
+          },
+          fields: [
+            {
+              name: "📋 **Pedido #" + numeroPedido + "**",
+              value: "```" + dadosCompra.itens.map((item, i) => `${i+1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace(".", ",")}`).join("\n") + "```",
+              inline: false
+            },
+            {
+              name: "💰 **Valor Total**",
+              value: "```R$ " + dadosCompra.total.toFixed(2).replace(".", ",") + "```",
+              inline: true
+            },
+            {
+              name: "📦 **Qtd. Itens**",
+              value: "```" + dadosCompra.itens.length + "x```",
+              inline: true
+            },
+            {
+              name: "📅 **Data**",
+              value: "```" + dataFormatada + " " + horaFormatada + "```",
+              inline: true
+            },
+            {
+              name: "💳 **Pagamento**",
+              value: "```PIX```",
+              inline: true
+            },
+            {
+              name: "📊 **Status**",
+              value: "```✅ Aguardando Pagamento```",
+              inline: true
+            }
+          ],
+          footer: {
+            text: "🏙️ Cidade Alta Roleplay • Loja Oficial",
+            icon_url: "https://imgur.com/IrYCr7r.gif"
+          },
+          author: {
+            name: "🏙️ Cidade Alta Roleplay - Loja Oficial"
+          }
+        }]
+      };
+
+      try {
+        const response = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(embed)
+        });
+
+        if (response.ok) {
+          console.log("✅ Log enviado ao Discord! Pedido #" + numeroPedido);
+        } else {
+          console.error("❌ Erro ao enviar log:", response.status);
+        }
+      } catch (error) {
+        console.error("❌ Erro na requisição:", error);
+      }
+    }
+
+    // ==================== NOTIFICAÇÃO ====================
+    function mostrarNotificacao(mensagem) {
+      const notification = document.createElement("div");
+      notification.className = "notification";
+      notification.textContent = mensagem;
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 2000);
+    }
+
+    // ==================== PIX ====================
     function copiarPix() {
       const pix = document.getElementById("pixKey").textContent;
 
@@ -621,13 +731,12 @@
     function mostrarMsgCopiado() {
       const msg = document.getElementById("msgCopiado");
       msg.style.display = "block";
-      msg.style.animation = "fadeIn 0.3s";
       setTimeout(() => {
         msg.style.display = "none";
       }, 3000);
     }
 
-    /* SISTEMA DE VENDAS */
+    // ==================== SISTEMA DE VENDAS ====================
     function registrarVenda(valor) {
       let vendas = [];
       try {
@@ -652,10 +761,8 @@
       let lucroTotal = vendas.reduce((sum, v) => sum + v.valor, 0);
 
       let agora = new Date();
-
       let inicioSemana = new Date();
       inicioSemana.setDate(agora.getDate() - 7);
-
       let inicioMes = new Date();
       inicioMes.setDate(1);
 
@@ -682,7 +789,7 @@
       }
     }
 
-    // Inicializar
+    // ==================== INICIALIZAR ====================
     atualizarCarrinho();
     atualizarPainel();
   </script>
