@@ -22,7 +22,6 @@
       min-height: 100vh;
     }
 
-    /* MENU LATERAL */
     .sidebar {
       width: 270px;
       background: #0c0c0c;
@@ -65,7 +64,6 @@
       border-color: #ff2d2d;
     }
 
-    /* AREA PRINCIPAL */
     .main {
       margin-left: 270px;
       width: 100%;
@@ -91,7 +89,6 @@
       opacity: 0.9;
     }
 
-    /* CARRINHO */
     .cart {
       background: #111;
       border: 1px solid #2a2a2a;
@@ -163,7 +160,6 @@
       box-shadow: 0px 0px 15px rgba(0,255,136,0.3);
     }
 
-    /* TITULOS */
     .section-title {
       font-size: 20px;
       margin-bottom: 15px;
@@ -173,7 +169,6 @@
       text-transform: uppercase;
     }
 
-    /* PRODUTOS */
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -231,7 +226,6 @@
       display: block;
     }
 
-    /* PIX */
     .pix-box {
       background: #0c0c0c;
       border: 2px solid #00ff88;
@@ -284,7 +278,6 @@
       border: 2px solid #ff2d2d;
     }
 
-    /* PAINEL ADMIN */
     .admin-box {
       background: #111;
       border: 1px solid #2a2a2a;
@@ -334,7 +327,6 @@
       padding: 20px 0;
     }
 
-    /* NOTIFICAÇÃO */
     .notification {
       position: fixed;
       top: 20px;
@@ -354,7 +346,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* RESPONSIVO */
     @media (max-width: 768px) {
       .sidebar {
         width: 100%;
@@ -524,6 +515,7 @@
   <script>
     // ==================== CONFIGURAÇÃO ====================
     const WEBHOOK_URL = "https://ptb.discord.com/api/webhooks/1506449522103029911/BFSaEKJ3BOU0IwFrUNFs1dFaASaq49_tB8gVy2Vkwz71xJP8XPf8bNjAXCFbAuNe6Gfy";
+    const GIF_URL = "https://cdn.discordapp.com/attachments/1505820085149761536/1506452870671892621/standard_2.gif?ex=6a0e5110&is=6a0cff90&hm=cd9177f28b7b449be5587b880f1880d43ba823770d7d2cab17efcc867b715664&";
     let cart = [];
 
     // ==================== NAVEGAÇÃO ====================
@@ -590,16 +582,9 @@
       let total = cart.reduce((sum, item) => sum + item.preco, 0);
       let itens = cart.map(item => `- ${item.nome}: R$ ${item.preco.toFixed(2).replace(".", ",")}`).join("\n");
 
-      // Registrar venda no localStorage
       registrarVenda(total);
+      enviarLogDiscord({ itens: [...cart], total: total });
 
-      // Enviar log para o Discord
-      enviarLogDiscord({
-        itens: [...cart],
-        total: total
-      });
-
-      // Mostrar confirmação
       alert(
         "✅ PEDIDO CRIADO COM SUCESSO!\n\n" +
         itens + "\n\n" +
@@ -609,7 +594,6 @@
         "📊 Um log foi enviado automaticamente para a Staff!"
       );
 
-      // Limpar carrinho
       cart = [];
       atualizarCarrinho();
     }
@@ -626,48 +610,21 @@
           title: "🛒 NOVA COMPRA FINALIZADA!",
           color: 0x00ff88,
           timestamp: now.toISOString(),
-          thumbnail: {
-            url: "https://imgur.com/IrYCr7r.gif"
-          },
+          thumbnail: { url: GIF_URL },
           fields: [
             {
               name: "📋 **Pedido #" + numeroPedido + "**",
               value: "```" + dadosCompra.itens.map((item, i) => `${i+1}. ${item.nome} - R$ ${item.preco.toFixed(2).replace(".", ",")}`).join("\n") + "```",
               inline: false
             },
-            {
-              name: "💰 **Valor Total**",
-              value: "```R$ " + dadosCompra.total.toFixed(2).replace(".", ",") + "```",
-              inline: true
-            },
-            {
-              name: "📦 **Qtd. Itens**",
-              value: "```" + dadosCompra.itens.length + "x```",
-              inline: true
-            },
-            {
-              name: "📅 **Data**",
-              value: "```" + dataFormatada + " " + horaFormatada + "```",
-              inline: true
-            },
-            {
-              name: "💳 **Pagamento**",
-              value: "```PIX```",
-              inline: true
-            },
-            {
-              name: "📊 **Status**",
-              value: "```✅ Aguardando Pagamento```",
-              inline: true
-            }
+            { name: "💰 **Valor Total**", value: "```R$ " + dadosCompra.total.toFixed(2).replace(".", ",") + "```", inline: true },
+            { name: "📦 **Qtd. Itens**", value: "```" + dadosCompra.itens.length + "x```", inline: true },
+            { name: "📅 **Data**", value: "```" + dataFormatada + " " + horaFormatada + "```", inline: true },
+            { name: "💳 **Pagamento**", value: "```PIX```", inline: true },
+            { name: "📊 **Status**", value: "```✅ Aguardando Pagamento```", inline: true }
           ],
-          footer: {
-            text: "🏙️ Cidade Alta Roleplay • Loja Oficial",
-            icon_url: "https://imgur.com/IrYCr7r.gif"
-          },
-          author: {
-            name: "🏙️ Cidade Alta Roleplay - Loja Oficial"
-          }
+          footer: { text: "🏙️ Cidade Alta Roleplay • Loja Oficial", icon_url: GIF_URL },
+          author: { name: "🏙️ Cidade Alta Roleplay - Loja Oficial" }
         }]
       };
 
@@ -677,7 +634,6 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(embed)
         });
-
         if (response.ok) {
           console.log("✅ Log enviado ao Discord! Pedido #" + numeroPedido);
         } else {
@@ -700,13 +656,8 @@
     // ==================== PIX ====================
     function copiarPix() {
       const pix = document.getElementById("pixKey").textContent;
-
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(pix).then(() => {
-          mostrarMsgCopiado();
-        }).catch(() => {
-          fallbackCopiar(pix);
-        });
+        navigator.clipboard.writeText(pix).then(() => mostrarMsgCopiado()).catch(() => fallbackCopiar(pix));
       } else {
         fallbackCopiar(pix);
       }
@@ -719,31 +670,20 @@
       textarea.style.opacity = "0";
       document.body.appendChild(textarea);
       textarea.select();
-      try {
-        document.execCommand("copy");
-        mostrarMsgCopiado();
-      } catch (e) {
-        alert("Não foi possível copiar. Copie manualmente: " + texto);
-      }
+      try { document.execCommand("copy"); mostrarMsgCopiado(); } catch (e) { alert("Não foi possível copiar. Copie manualmente: " + texto); }
       document.body.removeChild(textarea);
     }
 
     function mostrarMsgCopiado() {
       const msg = document.getElementById("msgCopiado");
       msg.style.display = "block";
-      setTimeout(() => {
-        msg.style.display = "none";
-      }, 3000);
+      setTimeout(() => { msg.style.display = "none"; }, 3000);
     }
 
     // ==================== SISTEMA DE VENDAS ====================
     function registrarVenda(valor) {
       let vendas = [];
-      try {
-        vendas = JSON.parse(localStorage.getItem("cidadeAltaVendas")) || [];
-      } catch(e) {
-        vendas = [];
-      }
+      try { vendas = JSON.parse(localStorage.getItem("cidadeAltaVendas")) || []; } catch(e) { vendas = []; }
       vendas.push({ valor: valor, data: new Date().toISOString() });
       localStorage.setItem("cidadeAltaVendas", JSON.stringify(vendas));
       atualizarPainel();
@@ -751,11 +691,7 @@
 
     function atualizarPainel() {
       let vendas = [];
-      try {
-        vendas = JSON.parse(localStorage.getItem("cidadeAltaVendas")) || [];
-      } catch(e) {
-        vendas = [];
-      }
+      try { vendas = JSON.parse(localStorage.getItem("cidadeAltaVendas")) || []; } catch(e) { vendas = []; }
 
       let totalVendas = vendas.length;
       let lucroTotal = vendas.reduce((sum, v) => sum + v.valor, 0);
