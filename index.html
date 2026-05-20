@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cidade Alta Roleplay - Loja Oficial</title>
-  <meta name="description" content="Loja Oficial do servidor Cidade Alta Roleplay - IDs, VIPs, Veículos e Pacotes">
+  <meta name="description" content="Loja Oficial do servidor Cidade Alta Roleplay - IDs, VIPs, Veículos, Policial, Facção e mais">
   <meta name="theme-color" content="#ff2d2d">
 
   <style>
@@ -52,6 +52,7 @@
       font-weight: bold;
       transition: 0.2s;
       text-align: left;
+      font-size: 13px;
     }
 
     .sidebar button:hover {
@@ -363,7 +364,7 @@
         width: auto;
         flex: 1;
         min-width: 120px;
-        font-size: 12px;
+        font-size: 11px;
         padding: 8px;
       }
       .main {
@@ -387,7 +388,11 @@
     <button onclick="showChannel('ids')" class="active">📌 Sistema de IDs</button>
     <button onclick="showChannel('vips')">💎 Sistema de VIPs</button>
     <button onclick="showChannel('veiculos')">🚗 Veículos</button>
-    <button onclick="showChannel('pacotes')">🔥 Pacotes</button>
+    <button onclick="showChannel('policial')">🚔 Policial</button>
+    <button onclick="showChannel('bans')">🔨 Remover Ban/ADV</button>
+    <button onclick="showChannel('moedas')">🪙 Moedas</button>
+    <button onclick="showChannel('extras')">🎁 Itens Extras</button>
+    <button onclick="showChannel('faccoes')">🏴 Facção</button>
     <button onclick="showChannel('pix')">💳 Pagamento PIX</button>
     <button onclick="showChannel('admin')">📊 Painel de Lucros</button>
   </div>
@@ -452,9 +457,58 @@
       </div>
     </div>
 
-    <!-- PACOTES -->
-    <div id="pacotes" class="channel">
-      <h2 class="section-title">🔥 Pacotes</h2>
+    <!-- POLICIAL -->
+    <div id="policial" class="channel">
+      <h2 class="section-title">🚔 Policial</h2>
+      <div class="cards">
+        <div class="card"><h3>Viatura Extra</h3><div class="price">R$ 25,00</div><button class="btn-add" onclick="addToCart('Viatura Extra', 25)">Adicionar</button></div>
+        <div class="card"><h3>Farda Extra</h3><div class="price">R$ 15,00</div><button class="btn-add" onclick="addToCart('Farda Extra', 15)">Adicionar</button></div>
+        <div class="card"><h3>Blindagem na Viatura</h3><div class="price">R$ 30,00</div><button class="btn-add" onclick="addToCart('Blindagem na Viatura', 30)">Adicionar</button></div>
+        <div class="card"><h3>Blindado</h3><div class="price">R$ 45,00</div><button class="btn-add" onclick="addToCart('Blindado', 45)">Adicionar</button></div>
+        <div class="card"><h3>Aumentar Base</h3><div class="price">R$ 20,00</div><button class="btn-add" onclick="addToCart('Aumentar Base', 20)">Adicionar</button></div>
+        <div class="card"><h3>Trocar Base</h3><div class="price">R$ 20,00</div><button class="btn-add" onclick="addToCart('Trocar Base', 20)">Adicionar</button></div>
+      </div>
+    </div>
+
+    <!-- REMOVER BAN / ADV -->
+    <div id="bans" class="channel">
+      <h2 class="section-title">🔨 Remover Ban / ADV</h2>
+      <div class="cards">
+        <div class="card"><h3>Remover Ban Permanente</h3><div class="price">R$ 25,50</div><button class="btn-add" onclick="addToCart('Remover Ban Permanente', 25.50)">Adicionar</button></div>
+        <div class="card"><h3>Remover Ban Temporário</h3><div class="price">R$ 15,90</div><button class="btn-add" onclick="addToCart('Remover Ban Temporário', 15.90)">Adicionar</button></div>
+        <div class="card"><h3>Remover ADV Corp</h3><div class="price">R$ 20,00</div><button class="btn-add" onclick="addToCart('Remover ADV Corp', 20)">Adicionar</button></div>
+        <div class="card"><h3>Remover ADV Fac</h3><div class="price">R$ 20,00</div><button class="btn-add" onclick="addToCart('Remover ADV Fac', 20)">Adicionar</button></div>
+      </div>
+    </div>
+
+    <!-- MOEDAS -->
+    <div id="moedas" class="channel">
+      <h2 class="section-title">🪙 Moedas</h2>
+      <div class="cards">
+        <div class="card"><h3>10 Coins</h3><div class="price">R$ 9,50</div><button class="btn-add" onclick="addToCart('10 Coins', 9.50)">Adicionar</button></div>
+        <div class="card"><h3>20 Coins</h3><div class="price">R$ 17,90</div><button class="btn-add" onclick="addToCart('20 Coins', 17.90)">Adicionar</button></div>
+        <div class="card"><h3>35 Coins</h3><div class="price">R$ 33,00</div><button class="btn-add" onclick="addToCart('35 Coins', 33)">Adicionar</button></div>
+        <div class="card"><h3>50 Coins</h3><div class="price">R$ 47,30</div><button class="btn-add" onclick="addToCart('50 Coins', 47.30)">Adicionar</button></div>
+        <div class="card"><h3>100 Coins</h3><div class="price">R$ 97,00</div><button class="btn-add" onclick="addToCart('100 Coins', 97)">Adicionar</button></div>
+      </div>
+    </div>
+
+    <!-- ITENS EXTRAS -->
+    <div id="extras" class="channel">
+      <h2 class="section-title">🎁 Itens Extras</h2>
+      <div class="cards">
+        <div class="card"><h3>Placa Personalizada</h3><div class="price">R$ 15,00</div><button class="btn-add" onclick="addToCart('Placa Personalizada', 15)">Adicionar</button></div>
+        <div class="card"><h3>Skyn de Anão</h3><div class="price">R$ 10,00</div><button class="btn-add" onclick="addToCart('Skyn de Anão', 10)">Adicionar</button></div>
+        <div class="card"><h3>Espaço de Inventário</h3><div class="price">R$ 7,50</div><button class="btn-add" onclick="addToCart('Espaço de Inventário', 7.50)">Adicionar</button></div>
+        <div class="card"><h3>Placa Personalizada 5 Uni</h3><div class="price">R$ 25,90</div><button class="btn-add" onclick="addToCart('Placa Personalizada 5 Uni', 25.90)">Adicionar</button></div>
+        <div class="card"><h3>Número Personalizado</h3><div class="price">R$ 15,90</div><button class="btn-add" onclick="addToCart('Número Personalizado', 15.90)">Adicionar</button></div>
+        <div class="card"><h3>Pacote Inicial</h3><div class="price">R$ 10,00</div><button class="btn-add" onclick="addToCart('Pacote Inicial', 10)">Adicionar</button></div>
+      </div>
+    </div>
+
+    <!-- FACÇÃO -->
+    <div id="faccoes" class="channel">
+      <h2 class="section-title">🏴 Facção</h2>
       <div class="cards">
         <div class="card"><h3>Pacote Facção</h3><div class="price">R$ 30,00</div><button class="btn-add" onclick="addToCart('Pacote Facção', 30)">Adicionar</button></div>
         <div class="card"><h3>Buffs de Farm</h3><div class="price">R$ 20,00</div><button class="btn-add" onclick="addToCart('Buffs de Farm', 20)">Adicionar</button></div>
@@ -462,6 +516,10 @@
         <div class="card"><h3>Garagem Adicional</h3><div class="price">R$ 15,90</div><button class="btn-add" onclick="addToCart('Garagem Adicional', 15.90)">Adicionar</button></div>
         <div class="card"><h3>Trocar Favela</h3><div class="price">R$ 15,00</div><button class="btn-add" onclick="addToCart('Trocar Favela', 15)">Adicionar</button></div>
         <div class="card"><h3>Adicionar Blindagem</h3><div class="price">R$ 50,00</div><button class="btn-add" onclick="addToCart('Adicionar Blindagem', 50)">Adicionar</button></div>
+        <div class="card"><h3>Caminhão de Armas</h3><div class="price">R$ 35,00</div><button class="btn-add" onclick="addToCart('Caminhão de Armas', 35)">Adicionar</button></div>
+        <div class="card"><h3>Baú Extra - 700 KG</h3><div class="price">R$ 25,50</div><button class="btn-add" onclick="addToCart('Baú Extra - 700 KG', 25.50)">Adicionar</button></div>
+        <div class="card"><h3>Baú Extra - 1200 KG</h3><div class="price">R$ 30,00</div><button class="btn-add" onclick="addToCart('Baú Extra - 1200 KG', 30)">Adicionar</button></div>
+        <div class="card"><h3>Aumentar Favela</h3><div class="price">R$ 25,00</div><button class="btn-add" onclick="addToCart('Aumentar Favela', 25)">Adicionar</button></div>
       </div>
     </div>
 
@@ -514,7 +572,7 @@
 
   <script>
     // ==================== CONFIGURAÇÃO ====================
-    const WEBHOOK_URL = "https://cdn.discordapp.com/attachments/1505820085149761536/1506452870671892621/standard_2.gif?ex=6a0e5110&is=6a0cff90&hm=cd9177f28b7b449be5587b880f1880d43ba823770d7d2cab17efcc867b715664&";
+    const WEBHOOK_URL = "https://ptb.discord.com/api/webhooks/1506449522103029911/BFSaEKJ3BOU0IwFrUNFs1dFaASaq49_tB8gVy2Vkwz71xJP8XPf8bNjAXCFbAuNe6Gfy";
     const GIF_URL = "https://cdn.discordapp.com/attachments/1505820085149761536/1506452870671892621/standard_2.gif?ex=6a0e5110&is=6a0cff90&hm=cd9177f28b7b449be5587b880f1880d43ba823770d7d2cab17efcc867b715664&";
     let cart = [];
 
@@ -524,7 +582,7 @@
       document.getElementById(channelId).classList.add("active");
       
       document.querySelectorAll(".sidebar button").forEach(btn => btn.classList.remove("active"));
-      const channelNames = ["ids", "vips", "veiculos", "pacotes", "pix", "admin"];
+      const channelNames = ["ids", "vips", "veiculos", "policial", "bans", "moedas", "extras", "faccoes", "pix", "admin"];
       const buttons = document.querySelectorAll(".sidebar button");
       const index = channelNames.indexOf(channelId);
       if (index >= 0 && index < buttons.length) {
